@@ -1,7 +1,7 @@
-#define W 800
-#define H 600
+#define W 400
+#define H 320
 #define difficulty 6
-#define taille_Case 20
+#define taille_Case 40
 
 #include "lib/libgraphique.h"
 #include<stdio.h>

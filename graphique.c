@@ -1,4 +1,4 @@
-#include "parametre.h"
+
 
 
 //fonction graphique
@@ -46,7 +46,7 @@ void graphisme_wall(int i, int j, int wall_r, int wall_b)
  
  
  
-void graphisme_damier(Case map[][H/taille_Case],Point player)
+void graphisme_damier(Case map[][H/taille_Case],Point player,int nb_map)
 {
 	int i=0, j=0;
 	init_ecran(gray);
@@ -54,16 +54,37 @@ void graphisme_damier(Case map[][H/taille_Case],Point player)
 	{
 		while(i<(W/taille_Case))
 		{
-			graphisme_case(i,j,map[i][j].c);
+			if(nb_map==1)
+			{
+				graphisme_case(i,j,map[i][j].c);
+			}
+			if(nb_map==2)
+			{
+				graphisme_case((i*2)+1,j,map[i][j].c);
+			}
+			
 			if(map[i][j].wall_r)
 			{
-				
-				graphisme_wall(i,j, 1, 0);
+				if(nb_map==1)
+				{
+					graphisme_wall(i,j, 1, 0);
+				}
+				if(nb_map==2)
+				{
+					graphisme_wall((i*2)+1,j, 1, 0);
+				}
 			}
 			if(map[i][j].wall_b)
 			{
 				
-				graphisme_wall(i,j, 0, 1);
+				if(nb_map==1)
+				{
+					graphisme_wall(i,j, 0, 1);
+				}
+				if(nb_map==2)
+				{
+					graphisme_wall((i*2)+1,j, 0, 1);
+				}
 			}
 			
 			i++;
