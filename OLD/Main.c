@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	Case map2[W/taille_Case][H/taille_Case];
 	Point player,monster;
 	player=init_damier(map);
-	player=init_damier(map2);
+	monster=init_damier(map2);
 	graphisme_damier(map,player,1);
 	graphisme_damier(map2,player,2);
 	

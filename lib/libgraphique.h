@@ -16,7 +16,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //0. Directive préprocesseur
 #include <SDL/SDL.h>
-#include<SDL2/SDL_ttf.h>
+#include<SDL/SDL_ttf.h>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -82,6 +82,11 @@ void afficher_image(char *nom, Point coin);
 // renvoie le code SDLK de la prochaine touche pressée
 // fonction bloquante
 int attendre_touche(void);
+
+// renvoie le code SDLK de la prochaine touche pressée avant une durée donnée
+// en milisecondes, fonction bloquante durant un certain temps.
+// Renvoie 0 si aucune touche n'a été pressée.
+int attendre_touche_duree(int);
 
 // renvoie les coordonnees du prochain clic (gauche ou droite) de souris
 // fonction bloquante

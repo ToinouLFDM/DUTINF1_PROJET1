@@ -136,7 +136,7 @@ void dessiner_ligne(Point p1, Point p2, Couleur couleur)
     float erreur = 0;
     Point p ; // point courant
 
-    //lignes horizontales et certicales : plus rapide
+    //lignes horizontales et verticales : plus rapide
     if (dy == 0) 
     {
         p.y = p1.y ;
@@ -237,6 +237,36 @@ int attendre_touche(void){
     }
     while (lastevent.type != SDL_KEYDOWN ) ;
     return lastevent.key.keysym.sym;
+}
+
+// renvoie le code SDLK de la première touche pressée pendant
+// la durée duree_ms (en millisecondes)
+// (bloque le jeu en attente pendant cette duree)
+// renvoie 0 si aucune touche n'a été pressée
+int attendre_touche_duree(int duree_ms)
+{
+
+    Uint32 depart = SDL_GetTicks();
+    Uint32 courant = SDL_GetTicks();
+    int code = 0;
+    SDL_Event e;
+    while(SDL_PollEvent(&e))
+        _test_arret() ;
+    while(code==0 && courant - depart < duree_ms)
+    {
+        courant = SDL_GetTicks();
+        SDL_PollEvent(&e) ;
+        if(e.type == SDL_KEYDOWN)
+
+            code = e.key.keysym.sym;
+        _test_arret() ;
+    }
+    while(courant - depart < duree_ms ) 
+    {
+        courant = SDL_GetTicks();
+        _test_arret() ;
+    }
+    return code;
 }
 
 // renvoie les coordonnees du prochain clic (gauche ou droite) de souris
