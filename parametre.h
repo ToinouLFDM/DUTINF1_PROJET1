@@ -16,18 +16,18 @@ typedef struct ITEM{
 	int key3;
 }Item;
 
+
+
 typedef struct PLAYER{
 	Item own;
-	int booost;
-	
+	Point position;
 	}Player;
 
 
 typedef struct CASE {
 	
 	int exit;
-	int wall_bottom;
-	int wall_right;
+	int wall;
 	Item own;
 }Case;
 
