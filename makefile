@@ -5,7 +5,7 @@ GG=gcc
 
 
 #changer le nom des deux lignes suivantes si nécessaire
-SOURCE = Main.c
+SOURCE = main.c
 OUTPUT = resultat
 LIB = -lm -lSDL -lSDL_ttf
 OPT = -Wall
