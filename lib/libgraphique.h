@@ -18,7 +18,6 @@
 #include <SDL/SDL.h>
 #include<SDL/SDL_ttf.h>
 
-
 ///////////////////////////////////////////////////////////////////////////////
 //1. Déclaration des types "maison"
 typedef Uint32 Couleur;
@@ -71,10 +70,17 @@ void dessiner_ligne(Point p1, Point p2, Couleur);
 //dessine un disque (cercle plein) de couleur voulue en donnant rayon et centre
 void dessiner_disque(Point centre, int rayon, Couleur couleur);
 
+
 // affiche l'image sous forme .bmp (bitmap), contenue dans le même dossier
 // nom est une chaine de caracteres qui est le nom (complet) du fichier image
 // coin est le coin haut, gauche voulu pour l'image à afficher dans l'ecran
 void afficher_image(char *nom, Point coin);
+
+
+//modif by Toinou 
+//Point taille correspond a la taille voulu de redimendionement
+//Point taille_picture correspond a la taille originel de l'image
+void afficher_image_resize(char *nom, Point coin, Point taille);
 
 ////////////////////////////////////////////////////////////////////////////////
 // 3. Gestion des événements

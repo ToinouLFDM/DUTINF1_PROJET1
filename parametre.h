@@ -16,11 +16,20 @@ typedef struct ITEM{
 }Item;
 
 
+typedef struct MOVE{
+  int is_moving;
+  int pressed;
+}move;
 
 typedef struct PLAYER{
 	Item own;
 	Point position;
 	int Victory;
+	move up;
+	move left;
+	move right;
+	move down;
+	int ID;
 	}Player;
 
 
@@ -39,16 +48,21 @@ typedef struct CASE {
 	//une fct game qui gere la boucle du jeu
 	void game(Player *player1,Player *player2,Case map1[][H/lenght_Case],Case map2[][H/lenght_Case]);
 	//une fct qui gere le deplacement pour les deux joueurs en simultané
+	void Is_pressed(Player *player1,Player *player2);
+	void deplacement(Player *player1, Case map1[][H/lenght_Case]);
 	void Victory(Player *player1,Player *player2,Case map1[][H/lenght_Case],Case map2[][H/lenght_Case]);
-
+	void InitPlayer(Player *player1,int id);
 //graphique
 	//fct fond d'ecran
-	void init_ecran();
+	void init_ecran(Couleur c);
 	//fct dessine une case en fct de sa position matricielle et en fct du labyrinthe choisi
 	void graphic_case(int , int ,int nb_map);
+	void graphic_player(int , int ,int nb_map);
+	void graphic_exit(int , int ,int nb_map);
+
 	//fct dessine un mur ..................................................................
 	void graphic_wall(int , int , int nb_map);
-
+	void screen_victory(Player *player1, Player *player2);
 	
 
 

@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "libgraphique.h"
-
+#include "SDL_gfx/SDL_rotozoom.c"
 
 ////////////////////////////////////////////////////////////////////////////////
 // 0. variables globales et macros
@@ -32,7 +32,7 @@ Point dernier_clic = {-1,-1};
 int LARGEUR = -1 ;                         // largeur de l'écran en pixels
 int HAUTEUR = -1 ;                         // hauteur de l'écran en pixels
 //char *NOM_POLICE = "../lib/verdana.ttf" ;
-char *NOM_POLICE = "../lib/verdana.ttf" ;
+char *NOM_POLICE = "lib/verdana.ttf" ;
 #define octets_par_pixel ecran->format->BytesPerPixel
 #define largeur_ecran (ecran->pitch / 4)
 
@@ -224,7 +224,17 @@ void afficher_image(char *nom, Point coin){
     SDL_BlitSurface(img,NULL,ecran,&position_img);
 }
 
-
+void afficher_image_resize(char *nom, Point coin, Point taille ){
+    SDL_Surface *img = SDL_LoadBMP(nom);
+    SDL_Rect position_img ;
+    position_img.x = coin.x;
+    position_img.y = coin.y;
+    Point lenght_picture={img->w,img->h};
+    double sizex=(double)taille.x/lenght_picture.x;
+    double sizey=(double)taille.y/lenght_picture.y;
+    img=zoomSurface(img,sizex,sizey, 1);
+    SDL_BlitSurface(img,NULL,ecran,&position_img);
+}
 ////////////////////////////////////////////////////////////////////////////////
 // 3. Gestion des événements
 
@@ -397,8 +407,6 @@ void afficher_texte(char *texte, int taille, Point coin, Couleur couleur)
 
         ttf_deja_init = 1;
     }
-
-    __police = polices[taille] ;
 
     if (texte[0] != '\0')
     {
