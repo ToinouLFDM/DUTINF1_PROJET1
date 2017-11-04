@@ -8,7 +8,7 @@ GG=gcc
 SOURCE = main.c
 OUTPUT = resultat
 LIB = -lm -lSDL -lSDL_ttf
-OPT = -Wall
+OPT = -Wall -g
 
 
 SDL_CFLAGS = $(shell sdl-config --cflags)

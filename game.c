@@ -9,13 +9,13 @@ void init_maps(Case map1[][H/lenght_Case],Case map2[][H/lenght_Case])
       map1[i][j].exit=0;
       map2[i][j].exit=0;
       int a=(entier_aleatoire(5)==1)?1:0;
-      map1[i][j].wall=a;
-      map2[i][j].wall=a;
-      if(map1[i][j].wall)
+      map1[i][j].wall=0;
+      map2[i][j].wall=0;
+      /*if(map1[i][j].wall)
 	graphic_wall(i, j, 1)	;
       if(map2[i][j].wall)
 	graphic_wall(i, j, 2)	;
-
+      */
 
       i++;
     }

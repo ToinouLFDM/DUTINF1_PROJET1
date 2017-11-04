@@ -63,7 +63,13 @@ typedef struct CASE {
 	//fct dessine un mur ..................................................................
 	void graphic_wall(int , int , int nb_map);
 	void screen_victory(Player *player1, Player *player2);
-	
+//MAZE
+  void generator(Case map[][H/lenght_Case]);
+  int check_Map(Case map[][H/lenght_Case]);
+  void check_Rec(int tab[][H/lenght_Case],Case map[][H/lenght_Case],int x,int y);
+  int check_Close(Case map[][H/lenght_Case], int tab[][H/lenght_Case],int x,int y);
+  void put_Wall(Case map[][H/lenght_Case], int *nb_loop, int *nb_Case);
+  int check_Put_Wall(Case map[][H/lenght_Case],int *nb_Case, int rand_x,int rand_y);
 
 
 

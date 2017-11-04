@@ -1,6 +1,7 @@
 #include "parametre.h"
 #include "graphique.c"
 #include "game.c"
+#include "generator_maze.c"
 
 int main(int argc, char *argv[])
 {	
@@ -13,9 +14,11 @@ int main(int argc, char *argv[])
 	attendre_clic();
 	Case map1[W/lenght_Case][H/lenght_Case],map2[W/lenght_Case][H/lenght_Case];
 	init_maps(map1,map2);
-	Player player1;
+	generator(map1);
+
+	/*Player player1;
 	Player player2;
-	game(&player1,&player2,map1,map2);	
+	game(&player1,&player2,map1,map2);*/
 	// fin de la session graphique
   attendre_clic();
   fermer_fenetre();
