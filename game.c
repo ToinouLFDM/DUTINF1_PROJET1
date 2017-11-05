@@ -8,24 +8,58 @@ void init_maps(Case map1[][H/lenght_Case],Case map2[][H/lenght_Case])
     {
       map1[i][j].exit=0;
       map2[i][j].exit=0;
-      int a=(entier_aleatoire(5)==1)?1:0;
       map1[i][j].wall=0;
       map2[i][j].wall=0;
-      /*if(map1[i][j].wall)
-	graphic_wall(i, j, 1)	;
-      if(map2[i][j].wall)
-	graphic_wall(i, j, 2)	;
-      */
-
       i++;
     }
     j++;
     i=0;
   }
-  map1[(W/lenght_Case)-1][(H/lenght_Case)-1].exit=1;
-  map2[(W/lenght_Case)-1][(H/lenght_Case)-1].exit=1;
-  graphic_exit((W/lenght_Case)-1,(H/lenght_Case)-1,1);
-  graphic_exit((W/lenght_Case)-1,(H/lenght_Case)-1,2);
+}
+void make_Maze(Case map1[][H_Map],Case map2[][H_Map],Player *player1,Player *player2)
+{
+  int x=0,y;
+  generator_Maze(map1);
+  int y_p=entier_aleatoire(H_Map-1)/2+1;
+  int y_e=entier_aleatoire(H_Map-1)/2 +H_Map/2;
+  int a=0,b=0;
+  for(;x<W_Map;x++)
+  {
+    for(y=0;y<H_Map;y++)
+    {
+      if(map1[x][y].wall==1)
+      {
+	map2[x][y].wall=1;
+	graphic_wall(x,y,1);
+	graphic_wall(x,y,2);
+      }
+      if(y_p==y)
+      {
+	if(map1[x][y].wall!=1 && !a)
+	{
+	  player1->position.x=x;
+	  player1->position.y=y;
+	  player2->position.x=x;
+	  player2->position.y=y;
+	  graphic_player(x,y,1);
+	  graphic_player(x,y,2);
+	  a=1;
+	}
+      }
+      if(y_e==y)
+      {
+	if(map1[x][y].wall!=1 && !b)
+	{
+	  map1[x][y].exit=1;
+	  map2[x][y].exit=1;
+	  graphic_exit(x,y,1);
+	  graphic_exit(x,y,2);
+	  b=1;
+	}
+      }
+      
+    }
+  }
   actualiser();
 }
 
@@ -120,8 +154,6 @@ void Victory(Player *player1, Player *player2,Case map1[][H/lenght_Case],Case ma
 
 void InitPlayer(Player *player1,int id)
 {
-  player1->position.x=0;
-  player1->position.y=0;
   player1->own.key1=0;
   player1->own.key2=0;
   player1->own.key3=0;

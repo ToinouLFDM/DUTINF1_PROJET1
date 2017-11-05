@@ -20,8 +20,16 @@ void generator(Case map[][H/lenght_Case])
 int check_Map(Case map[][H/lenght_Case])
 {
   printf("\n");
-  int tab[W/lenght_Case][H/lenght_Case]={{1}};
-  check_Rec(tab,map,0,0);
+  int x,y;
+  int tab[W/lenght_Case][H/lenght_Case]={{0}};
+  for(x=0;x<W/lenght_Case;x++)
+  {
+    for(y=0;y<H/lenght_Case;y++)
+    {
+      tab[x][y]=1;
+    }
+  }
+    check_Rec(tab,map,0,0);
   int i = 0 , j = 0;
   int a = 0;
   for (;j<H/lenght_Case;j++)
@@ -39,9 +47,9 @@ int check_Map(Case map[][H/lenght_Case])
       {
 	if (tab[i][j]>1)
 	  a = 1;
-	if (tab[i][j] == 0)		    //tab[x][y] == 1  -> 1 case a chemin unique
+	if (tab[i][j] == -1)		    //tab[x][y] == 1  -> 1 case a chemin unique
 	  return 2;			    //		== 0 -> 1 mur
-      }					    //		==  1  -> 1 case a chemin non unique
+      }					    //		==  2  -> 1 case a chemin non unique
 					    //          == -1 -> 1 case fermé
   }	
   return (a)?0:1;
@@ -70,22 +78,20 @@ void check_Rec(int tab[][H/lenght_Case],Case map[][H/lenght_Case],int x,int y)
     check_Rec(tab,map,x,y-1);
   if (y+1<=H/lenght_Case)
     check_Rec(tab,map,x,y+1);*/
-  while (x<W/lenght_Case)
+  for(x=0;x<W/lenght_Case;x++)
   { 
-    While(y<H/lenght_Case)
+    for(y=0;y<H/lenght_Case;y++)
     {
       if(map[x][y].wall)
 	tab[x][y]=0;
-      y++;
     }
-    x++;
   }
 
   for(x=0;x<W/lenght_Case;x++)
   {
     for(y=0;y<H/lenght_Case;y++)
     {
-      if(!(check_Close(map,tab,x,y);
+      if(!(check_Close(map,tab,x,y)) )
 	return;	
     }
   }
@@ -101,7 +107,7 @@ void check_Rec(int tab[][H/lenght_Case],Case map[][H/lenght_Case],int x,int y)
       {
 	if (tab[x-1][y-1]>=1 || tab[x-1][y+1]>=1 || tab[x+1][y+1]>=1 || tab[x+1][y-1]>=1)
 	{
-	  tab[x][y]==2;
+	  tab[x][y]=2;
 	  return;
 	}
       }
@@ -109,9 +115,9 @@ void check_Rec(int tab[][H/lenght_Case],Case map[][H/lenght_Case],int x,int y)
   }
 }
 
-int check_close(Case map[][H/lenght_Case],int tab[][H/lenght_Case],int x, int y)
+int check_Close(Case map[][H/lenght_Case],int tab[][H/lenght_Case],int x, int y)
 {
-  int i=x,j=y;
+  int i=x,j=y,count=0;
   while(x<W/lenght_Case || tab[x+1][y]>0)
     x+=1;
 
@@ -123,21 +129,29 @@ int check_close(Case map[][H/lenght_Case],int tab[][H/lenght_Case],int x, int y)
     if(y<H/lenght_Case && tab[x+1][y]>0 )
       return 1;
   }
+  else
+    count+=1;
+
   if(y<H/lenght_Case)
   {
-    while(x>=0 || tab[x][y+1]==0 || tab[x-1][y]>0}
+    while(x>=0 || tab[x][y+1]==0 || tab[x-1][y]>0)
       x--;
 
     if(x>=0 && tab[x][y+1]>0)
       return 1;
   }
+  else
+    count+=1;
+
   if(x>=0)
   {
-    while(y>=0 || tab[x-1][y]==0 || tab[x][y-1]>0
+    while(y>=0 || tab[x-1][y]==0 || tab[x][y-1]>0)
       y--;
     if(y>=0 && tab[x-1][y]>0)
       return 1;
   }
+  else
+    count+=1;
   if(y>=0)
   {
     while(x<W/lenght_Case || tab[x][y-1]==0 || tab[x+1][y]>0)
@@ -145,6 +159,8 @@ int check_close(Case map[][H/lenght_Case],int tab[][H/lenght_Case],int x, int y)
     if(x<H/lenght_Case && tab[x][y-1]>0)
       return 1;
   }
+  else
+    count+=1;
   if(x<W/lenght_Case)
   {
     while(y<H/lenght_Case || tab[x+1][y]==0 || tab[x][y+1]>0)
@@ -152,6 +168,10 @@ int check_close(Case map[][H/lenght_Case],int tab[][H/lenght_Case],int x, int y)
     if(y<H/lenght_Case && tab[x+1][y]>0)
       return 1;
   }
+  else
+    count+=1;
+  if(count>=3)
+    return 1;
   tab[i][j]=-1;
   return 0;
 }

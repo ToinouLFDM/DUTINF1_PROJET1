@@ -6,6 +6,8 @@
 #define H 500//taille graphique d'un labyrinthe
 #define difficulty 6
 #define lenght_Case 20
+#define W_Map W/lenght_Case
+#define H_Map H/lenght_Case
 
 
 
@@ -45,6 +47,7 @@ typedef struct CASE {
 //GAME.C
 	//init qui va initiliser les 2 matrice de case et dessiner les mur et le fond d'ecran
 	void init_maps(Case map1[][H/lenght_Case],Case map2[][H/lenght_Case]);
+	void make_Maze(Case map1[][H_Map], Case map2[][H_Map],Player *player1, Player *player2);
 	//une fct game qui gere la boucle du jeu
 	void game(Player *player1,Player *player2,Case map1[][H/lenght_Case],Case map2[][H/lenght_Case]);
 	//une fct qui gere le deplacement pour les deux joueurs en simultané
@@ -71,9 +74,14 @@ typedef struct CASE {
   void put_Wall(Case map[][H/lenght_Case], int *nb_loop, int *nb_Case);
   int check_Put_Wall(Case map[][H/lenght_Case],int *nb_Case, int rand_x,int rand_y);
 
-
-
-
+//MAZE V2
+  void generator_Maze(Case map[][H_Map]);
+  void init_Lab(Case map[][H_Map], int tab[][H_Map]);
+  int is_Perfect(int tab[][H_Map]);
+  void break_Wall(Case map[][H_Map], int tab[][H_Map]);
+  void set_Path(int tab[][H_Map], int x, int y);
+  void set_Path_Rec(int tab[][H_Map], int x, int y,int from_x,int from_y);
+  void debug_Print_Tab(int tab[][H_Map]);
 
 
 

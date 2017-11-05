@@ -2,6 +2,7 @@
 #include "graphique.c"
 #include "game.c"
 #include "generator_maze.c"
+#include "generator_Maze_v2.c"
 
 int main(int argc, char *argv[])
 {	
@@ -14,11 +15,10 @@ int main(int argc, char *argv[])
 	attendre_clic();
 	Case map1[W/lenght_Case][H/lenght_Case],map2[W/lenght_Case][H/lenght_Case];
 	init_maps(map1,map2);
-	generator(map1);
-
-	/*Player player1;
+	Player player1;
 	Player player2;
-	game(&player1,&player2,map1,map2);*/
+	make_Maze(map1,map2,&player1,&player2);
+	game(&player1,&player2,map1,map2);
 	// fin de la session graphique
   attendre_clic();
   fermer_fenetre();
