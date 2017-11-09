@@ -20,14 +20,18 @@ Point path_IA(Point player,Case map[][H_Map])
 //parcours l'arbre pour trouver le chemin vers la sortie retourne le noeud de la sortie
 tree *find_exit(tree *Tree,Case map[][H_Map])
 {
-  if(Tree==NULL)
-    return ;
   if(map[Tree->value.x][Tree->value.y].exit)
     return Tree;
-  find_exit(Tree->left,map);
-  find_exit(Tree->right,map);
-  find_exit(Tree->top,map);
-  find_exit(Tree->bot,map);
+  if(Tree->left!=NULL)
+    find_exit(Tree->left,map);
+  if(Tree->right!=NULL)
+    find_exit(Tree->right,map);
+  if(Tree->top!=NULL)
+    find_exit(Tree->top,map);
+  if(Tree->bot!=NULL)
+    find_exit(Tree->bot,map);
+  
+
 
 }
 //remonte les pere retourne l'avant dernier noueud in se trouvent les coorodonée a prendre pour l'IA
@@ -85,19 +89,19 @@ void build_tree_rec(Case map[][H_Map], Point p,tree *node)
     build_tree_rec(map, tmp,node->right);
   }
   printf("yoloy2\n");
-  if( !map[p.x-1][p.y].wall==0 && p.x-1!=node->dad->value.x)
+  if( !map[p.x-1][p.y].wall && p.x-1!=node->dad->value.x)
   {
     Point tmp={node->value.x-1,node->value.y};
     add_left(tmp,node);
     build_tree_rec(map, tmp,node->left);
   }
-  if( !map[p.x][p.y+1].wall==0 && p.y+1!=node->dad->value.y)
+  if( !map[p.x][p.y+1].wall && p.y+1!=node->dad->value.y)
   {
     Point tmp={node->value.x,node->value.y+1};
     add_bot(tmp,node);
     build_tree_rec(map, tmp,node->bot);
   }
-  if( !map[p.x][p.y-1].wall==0 && p.y-1!=node->dad->value.y)
+  if( !map[p.x][p.y-1].wall && p.y-1!=node->dad->value.y)
   {
     Point tmp={node->value.x,node->value.y-1};
     add_top(tmp,node);

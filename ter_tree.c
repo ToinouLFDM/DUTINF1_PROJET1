@@ -5,62 +5,62 @@
 
 tree *initree(Point val)
 {
-  tree *tree = malloc(sizeof(tree));
-  tree->left = NULL;
-  tree->right= NULL;
-  tree->top=NULL;
-  tree->bot=NULL;
-  tree->dad=NULL;
-  tree->value=val;
-  return tree;
+  tree *Tree = malloc(sizeof(tree));
+  Tree->left = NULL;
+  Tree->right= NULL;
+  Tree->top=NULL;
+  Tree->bot=NULL;
+  Tree->dad=NULL;
+  Tree->value=val;
+  return Tree;
 }
 
-void add_left(Point val,tree *tree)
+void add_left(Point val,tree *Tree)
 {
-  if(tree->left!=NULL)
+  if(Tree->left!=NULL)
     return;
-  tree->left=initree(val);
-  tree->left->dad=tree;
+  Tree->left=initree(val);
+  Tree->left->dad=Tree;
 }
 
-void add_right(Point val,tree *tree)
+void add_right(Point val,tree *Tree)
 {
-  if(tree->right!=NULL)
+  if(Tree->right!=NULL)
     return;
-  tree->right=initree(val);
-  tree->right->dad=tree;
+  Tree->right=initree(val);
+  Tree->right->dad=Tree;
 }
 
-void add_top(Point val,tree *tree)
+void add_top(Point val,tree *Tree)
 {
-  if(tree->top!=NULL)
+  if(Tree->top!=NULL)
     return;
-  tree->top=initree(val);
-  tree->top->dad=tree;
+  Tree->top=initree(val);
+  Tree->top->dad=Tree;
 }
 
-void add_bot(Point val,tree *tree)
+void add_bot(Point val,tree *Tree)
 {
-  if(tree->bot!=NULL)
+  if(Tree->bot!=NULL)
     return;
-  tree->bot=initree(val);
-  tree->bot->dad=tree;
+  Tree->bot=initree(val);
+  Tree->bot->dad=Tree;
 }
 
 
 //parcours pofondeur main gauche en infix
-void printleft_hand(tree *tree)
+void printleft_hand(tree *Tree)
 {
-  if (tree==NULL)
+  if (Tree==NULL)
   {	
     printf("\n");
     return ;
   }
-  printleft_hand(tree->left);
-  printf("- %d,%d",tree->value.x,tree->value.y);
-  printleft_hand(tree->right);
-  printleft_hand(tree->top);
-  printleft_hand(tree->bot);
+  printleft_hand(Tree->left);
+  printf("- %d,%d",Tree->value.x,Tree->value.y);
+  printleft_hand(Tree->right);
+  printleft_hand(Tree->top);
+  printleft_hand(Tree->bot);
 }
 int height_tree(tree *node)
 {
