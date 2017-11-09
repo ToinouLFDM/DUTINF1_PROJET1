@@ -11,6 +11,7 @@ void generator_Maze(Case map[][H_Map])
     debug_Print_Tab(tab);
     loop+=1;
     printf("loop count -> %d",loop);
+    actualiser();
   }
 
 }

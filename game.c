@@ -39,8 +39,12 @@ void make_Maze(Case map1[][H_Map],Case map2[][H_Map],Player *player1,Player *pla
 	{
 	  player1->position.x=x;
 	  player1->position.y=y;
+	  player1->pos_graphic.x=x*lenght_Case;
+	  player1->pos_graphic.y=y*lenght_Case;
 	  player2->position.x=x;
 	  player2->position.y=y;
+	  player2->pos_graphic.x=x*lenght_Case;
+	  player2->pos_graphic.y=y*lenght_Case;
 	  graphic_player(x,y,1);
 	  graphic_player(x,y,2);
 	  a=1;
@@ -71,11 +75,15 @@ void game(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case map
   while(!(player1->Victory) &&!(player2->Victory) )
   {
     reinitialiser_evenements();
-    attente(60);
+    attente(5);   
     traiter_evenements();
-    Is_pressed(player1,player2);
+   
+    move_player(player1);
+    move_player(player2);
     deplacement(player1,map1);
-    deplacement(player2,map1);
+    deplacement(player2,map2);
+    Is_pressed(player1,player2);
+    reinitialiser_evenements();
     Victory(player1,player2,map1,map2);
     actualiser();
   }
@@ -105,46 +113,97 @@ void Is_pressed(Player *player1,Player *player2)
     player1->right.pressed=1;
 
 }
-
 void deplacement(Player *player1, Case map1[][H/lenght_Case])
 {
   if(player1->up.pressed && !(map1[player1->position.x][(player1->position.y)-1].wall) && (player1->position.y>0))
-      {
-	 printf("player1 %d\n",player1->Victory);
-	player1->up.pressed=0;
-      player1->up.is_moving=0;
-	graphic_case(player1->position.x, player1->position.y,player1->ID);
-	player1->position.y-=1;
-	graphic_player(player1->position.x, player1->position.y,player1->ID);
-      }
- if(player1->down.pressed && !(map1[player1->position.x][(player1->position.y)+1].wall) && (player1->position.y<(H/lenght_Case)-1))
-      {
-	 printf("player1 %d\n",player1->Victory);
-	player1->down.pressed=0;
-	player1->down.is_moving=0;
-	graphic_case(player1->position.x, player1->position.y,player1->ID);
-	player1->position.y+=1;
-	graphic_player(player1->position.x, player1->position.y,player1->ID);
-      }
+  {
+      printf("player1 %d\n",player1->Victory);
+      player1->up.pressed=0;
+      player1->down.pressed=0;
+      player1->right.pressed=0;
+      player1->left.pressed=0;
+      player1->up.is_moving=1;
+      player1->position.y-=1;
+  }
+  if(player1->down.pressed && !(map1[player1->position.x][(player1->position.y)+1].wall) && (player1->position.y<(H/lenght_Case)-1))
+  { 
+    player1->up.pressed=0;
+    player1->down.pressed=0;
+    player1->right.pressed=0;
+    player1->left.pressed=0;
+    printf("player1 %d\n",player1->Victory);
+    player1->down.is_moving=1;
+    player1->position.y+=1;
+  }
 
- if(player1->left.pressed && !(map1[player1->position.x-1][(player1->position.y)].wall) && (player1->position.x>0))
-      {
-	 printf("player1 %d\n",player1->Victory);
-	player1->left.pressed=0;
-	graphic_case(player1->position.x, player1->position.y,player1->ID);
-	player1->position.x-=1;
-	graphic_player(player1->position.x, player1->position.y,player1->ID);
-      }
- if(player1->right.pressed && !(map1[player1->position.x+1][(player1->position.y)].wall) && (player1->position.x<(W/lenght_Case-1)))
-      {
-	 printf("player1 %d\n",player1->Victory);
-	player1->right.pressed=0;
-	graphic_case(player1->position.x, player1->position.y,player1->ID);
-	player1->position.x+=1;
-	graphic_player(player1->position.x, player1->position.y,player1->ID);
-      }
+  if(player1->left.pressed && !(map1[player1->position.x-1][(player1->position.y)].wall) && (player1->position.x>0))
+  { 
+    player1->up.pressed=0;
+    player1->down.pressed=0;
+    player1->right.pressed=0;
+    player1->left.pressed=0;
+    printf("player1 %d\n",player1->Victory);
+    player1->left.pressed=0;
+    player1->left.is_moving=1;
+    player1->position.x-=1;
+  }
+  if(player1->right.pressed && !(map1[player1->position.x+1][(player1->position.y)].wall) && (player1->position.x<(W/lenght_Case-1)))
+  {
+    player1->up.pressed=0;
+    player1->down.pressed=0;
+    player1->right.pressed=0;
+    player1->left.pressed=0;
+    printf("player1 %d\n",player1->Victory);
+    player1->right.is_moving=1;
+    player1->position.x+=1;
+  }
 
 
+}
+void move_player(Player *player)
+{
+  if(player->up.is_moving>lenght_Case)
+    player->up.is_moving=0;
+  if(player->down.is_moving>lenght_Case)
+    player->down.is_moving=0;
+  if(player->left.is_moving>lenght_Case)
+    player->left.is_moving=0;
+  if(player->right.is_moving>lenght_Case)
+    player->right.is_moving=0;
+
+ 
+  if(player->up.is_moving)
+  {
+    graphic_anim_erase(player->pos_graphic.x,player->pos_graphic.y,(player->ID==1)?1:2);
+    player->pos_graphic.y-=1;
+    graphic_anim(player->pos_graphic.x,player->pos_graphic.y,(player->ID==1)?1:2);
+    player->up.is_moving+=1;
+  }
+  else if(player->down.is_moving)
+  {
+    graphic_anim_erase(player->pos_graphic.x,player->pos_graphic.y,(player->ID==1)?1:2);
+    player->pos_graphic.y+=1;
+    player->down.is_moving+=1;
+    graphic_anim(player->pos_graphic.x,player->pos_graphic.y,(player->ID==1)?1:2);
+  }
+  else if(player->left.is_moving)
+  {
+    graphic_anim_erase(player->pos_graphic.x,player->pos_graphic.y,(player->ID==1)?1:2);
+    player->pos_graphic.x-=1;
+    player->left.is_moving+=1;
+    graphic_anim(player->pos_graphic.x,player->pos_graphic.y,(player->ID==1)?1:2);
+  }
+  else if(player->right.is_moving)
+  {
+    graphic_anim_erase(player->pos_graphic.x,player->pos_graphic.y,(player->ID==1)?1:2);
+    player->pos_graphic.x+=1;
+    player->right.is_moving+=1;
+    graphic_anim(player->pos_graphic.x,player->pos_graphic.y,(player->ID==1)?1:2);
+  }
+  else
+  {
+    graphic_player(player->position.x,player->position.y,(player->ID==1)?1:2);
+  }
 }
 void Victory(Player *player1, Player *player2,Case map1[][H/lenght_Case],Case map2[][H/lenght_Case])
 {
@@ -170,3 +229,53 @@ void InitPlayer(Player *player1,int id)
   graphic_player(player1->position.x,player1->position.y,1);
 
 }
+void game_IA(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case map2[][H/lenght_Case])
+{
+  InitPlayer(player1,1);
+  InitPlayer(player2,2);
+  actualiser();
+  while(!(player1->Victory) &&!(player2->Victory) )
+  {
+    reinitialiser_evenements();
+    attente(5);   
+    traiter_evenements();
+   
+    move_player(player1);
+    move_player(player2);
+    deplacement(player1,map1);
+    deplacement_IA(player2,map2);
+    Is_pressed(player1,player2);
+    reinitialiser_evenements();
+    Victory(player1,player2,map1,map2);
+    actualiser();
+  }
+  reinitialiser_evenements();
+  screen_victory(player1,player2);
+  traiter_evenements();
+  actualiser();
+}
+//deplace l'ia en faisant appelle au fonction de deduction de chemin
+void deplacement_IA(Player *player,Case map[][H_Map])
+{
+  Point tmp=player->position;
+  player->position=path_IA(player->position,map);
+  switch(tmp.x-player->position.x)
+  {
+    case 1:
+      player->left.is_moving=1;
+      break;
+    case -1:
+      player->right.is_moving=1;
+      break;
+  }
+  switch(tmp.y-player->position.y)
+  {
+    case 1:
+      player->up.is_moving=1;
+      break;
+    case -1:
+      player->down.is_moving=1;
+  }
+
+}
+
