@@ -42,32 +42,32 @@ Point find_path(tree *node)
 }
 
 
-void build_tree(Case map[][H_Map],Point p,tree *tree)
+void build_tree(Case map[][H_Map],Point p,tree *node)
 {
 
   if(!map[p.x+1][p.y].wall)
   {
     Point tmp={p.x+1,p.y};
-    add_right(tmp,tree);
-    build_tree_rec(map,tmp,tree->right);
+    add_right(tmp,node);
+    build_tree_rec(map,tmp,node->right);
   }
   if(!map[p.x-1][p.y].wall)
   {
     Point tmp={p.x-1,p.y};
-    add_left(tmp,tree);
-    build_tree_rec(map,tmp,tree->left);
+    add_left(tmp,node);
+    build_tree_rec(map,tmp,node->left);
   }
   if(!map[p.x][p.y+1].wall)
   {
     Point tmp={p.x,p.y+1};
-    add_bot(tmp,tree);
-    build_tree_rec(map,tmp,tree->bot);
+    add_bot(tmp,node);
+    build_tree_rec(map,tmp,node->bot);
   }
   if(!map[p.x][p.y-1].wall)
   {
     Point tmp={p.x,p.y-1};
-    add_top(tmp,tree);
-    build_tree_rec(map,tmp,tree->top);
+    add_top(tmp,node);
+    build_tree_rec(map,tmp,node->top);
   }
 
 }
