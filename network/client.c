@@ -33,7 +33,7 @@ void send_map ( Case map[][H_Map],int i)
   struct hostent *serverHostEnt;
   long hostAddr;
   long status;
-  Map buffer[2048];
+  Case[W_Map] buffer[2048];
 
   bzero(&serverSockAddr,sizeof(serverSockAddr));
   hostAddr = inet_addr(SERVEURNAME);
