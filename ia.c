@@ -72,34 +72,36 @@ void build_tree(Case map[][H_Map],Point p,tree *tree)
 
 }
 
-void build_tree_rec(Case map[][H_Map], Point p,tree *tree)
+void build_tree_rec(Case map[][H_Map], Point p,tree *node)
 {
-
-  if(tree->dad==NULL)
+  printf("%d,%d \n",node->value.x,node->value.y);
+  if(node->dad==NULL)
     return;
-  if( !map[p.x+1][p.y].wall && p.x+1!=tree->dad->value.x)
+  printf("yolo1\n");
+  if( !map[p.x+1][p.y].wall && p.x+1!=node->dad->value.x)
   {
-    Point tmp={tree->value.x+1,tree->value.y};
-    add_right(tmp,tree);
-    build_tree_rec(map, tmp,tree->right);
+    Point tmp={node->value.x+1,node->value.y};
+    add_right(tmp,node);
+    build_tree_rec(map, tmp,node->right);
   }
-  if( !map[p.x-1][p.y].wall==0 && p.x-1!=tree->dad->value.x)
+  printf("yoloy2\n");
+  if( !map[p.x-1][p.y].wall==0 && p.x-1!=node->dad->value.x)
   {
-    Point tmp={tree->value.x-1,tree->value.y};
-    add_left(tmp,tree);
-    build_tree_rec(map, tmp,tree->left);
+    Point tmp={node->value.x-1,node->value.y};
+    add_left(tmp,node);
+    build_tree_rec(map, tmp,node->left);
   }
-  if( !map[p.x][p.y+1].wall==0 && p.y+1!=tree->dad->value.y)
+  if( !map[p.x][p.y+1].wall==0 && p.y+1!=node->dad->value.y)
   {
-    Point tmp={tree->value.x,tree->value.y+1};
-    add_bot(tmp,tree);
-    build_tree_rec(map, tmp,tree->bot);
+    Point tmp={node->value.x,node->value.y+1};
+    add_bot(tmp,node);
+    build_tree_rec(map, tmp,node->bot);
   }
-  if( !map[p.x][p.y-1].wall==0 && p.y-1!=tree->dad->value.y)
+  if( !map[p.x][p.y-1].wall==0 && p.y-1!=node->dad->value.y)
   {
-    Point tmp={tree->value.x,tree->value.y-1};
-    add_top(tmp,tree);
-    build_tree_rec(map, tmp,tree->top);
+    Point tmp={node->value.x,node->value.y-1};
+    add_top(tmp,node);
+    build_tree_rec(map, tmp,node->top);
   }
   return;
 }
