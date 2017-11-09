@@ -8,18 +8,14 @@
 #include <signal.h>
 #include <unistd.h>
 
-
-typedef struct Map{
-  int x;
-  int y;
-}Map;
+#include "../parametre.h"
 
 void fin (int i);
 void appli(int no_client_socket);
-Map buffer[512];
+Case[W_Map] buffer[2048];
 int ma_socket;
 
-void main ( void )
+void receive_map (Case map[][H_Map])
 {
   int client_socket;
   struct sockaddr_in mon_address, client_address;
@@ -33,7 +29,7 @@ void main ( void )
   /* creation de socket */
   if ((ma_socket = socket(AF_INET,SOCK_STREAM,0))== -1)
   {
-    printf("ca chie avec la creation\n");
+    printf("Problème : Création du socket\n");
     exit(0);
   }
   signal(SIGINT,fin);
@@ -45,7 +41,8 @@ void main ( void )
 
   /* accept la connexion */
   mon_address_longueur = sizeof(client_address);
-  while(1)
+  int i;
+  for (i = 0; i<W_Map ; i++)
   {
     client_socket = accept(ma_socket,
 	(struct sockaddr *)&client_address,
@@ -55,10 +52,10 @@ void main ( void )
     {
       close(ma_socket);
 
-      lg = read(client_socket,buffer, 512);
-      printf("le serveur a recu: %s\n",buffer);
-      sprintf(buffer,"%s du serveur",buffer);
-      write(client_socket,buffer, 512);
+      lg = read(client_socket,buffer, 2048);
+      printf("le serveur a recu la ligne %d\n",i);
+      map[i] = buffer;
+      write(client_socket,buffer, 2048);
       shutdown(client_socket,2);
       close(client_socket);
       exit(0);
