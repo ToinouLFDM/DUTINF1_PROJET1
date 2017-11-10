@@ -4,7 +4,7 @@
 
 #define W 610//taille graphique d'un labyrinthe   //606 
 #define H 410//taille graphique d'un labyrinthe   //426
-#define difficulty 6   
+#define difficulty 50   
 #define lenght_Case 10  //6
 #define W_Map W/lenght_Case
 #define H_Map H/lenght_Case

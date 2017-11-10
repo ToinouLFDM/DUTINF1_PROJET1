@@ -258,7 +258,9 @@ void game_IA(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case 
 void deplacement_IA(Player *player,Case map[][H_Map])
 {
   Point tmp=player->position;
-  player->position=path_IA(player->position,map);
+  int a=entier_aleatoire(difficulty);
+  if(!player->up.is_moving && !player->down.is_moving && !player->right.is_moving && !player->left.is_moving && a==1)
+    player->position=path_IA(player->position,map);
   switch(tmp.x-player->position.x)
   {
     case 1:

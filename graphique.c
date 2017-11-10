@@ -136,6 +136,7 @@ void screen_victory(Player *player1, Player *player2)
     afficher_image_resize("picture/victory_player2.bmp",corner,size);
 
   actualiser();
+   attendre_touche();
 
 }
 int Menu() 
@@ -161,7 +162,7 @@ int Menu()
       a+=1;
     }
     int b=0;
-    if(touche==SDLK_BACKSPACE)
+    if(touche==SDLK_RETURN)
       b=1;
     printf("%d\n ",a);
     switch(a)
@@ -181,6 +182,11 @@ int Menu()
 
       case 2:
 	afficher_image_resize("picture/Menu_template_quit.bmp",corner,size);
+	if(b)
+	{
+	done=1;
+	type_partie=0;
+	}
 	break;
     }
     actualiser(); 
@@ -209,7 +215,7 @@ int Menu_play()
       a+=1;
     }
     int b=0;
-    if(touche==SDLK_BACKSPACE)
+    if(touche==SDLK_RETURN)
       b=1;
     printf("%d\n ",a);
     switch(a)
@@ -229,6 +235,10 @@ int Menu_play()
       case 2:
 	afficher_image_resize("picture/Menu_template_multiplayer.bmp",corner,size);
 	break;
+    }
+    if(touche==SDLK_BACKSPACE)
+    {
+      return Menu();
     }
     actualiser(); 
   }
