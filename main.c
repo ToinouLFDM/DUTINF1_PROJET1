@@ -1,9 +1,9 @@
 #include "parametre.h"
-#include "graphique.c"
-#include "game.c"
-#include "generator_Maze_v2.c"
-#include "ter_tree.c"
-#include "ia.c"
+#include "Graphic/graphique.c"
+#include "Game/game.c"
+#include "Generator/generator_Maze_v2.c"
+#include "IA/tree.c"
+#include "IA/ia.c"
 
 int main(int argc, char *argv[])
 {	
