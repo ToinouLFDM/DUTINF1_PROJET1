@@ -30,8 +30,13 @@ typedef struct {
     int boutond ;
 } Trace_evts ;
 
-////////////////////////////////////////////////////////////////////////////////
-// Déclaration des fonctions
+typedef struct
+{
+    char key[SDLK_LAST];
+} Input;
+
+/////////////////////////////////////////////////////////////////////////////// Déclarationtruct
+//des fonctions
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -112,6 +117,8 @@ void reinitialiser_evenements(void);
 // memorise les evenements ayant eu lieu depuis la derniere
 // reinitialisation
 void traiter_evenements(void);
+
+void UpdateEvents(Input *in);
 
 // indique si la touche de code SDL en question a été pressée 
 // entre la derniere reinitialisation et le dernier traitement

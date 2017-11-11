@@ -61,7 +61,7 @@ void make_Maze(Case map1[][H_Map],Case map2[][H_Map],Player *player1,Player *pla
 	  b=1;
 	}
       }
-      
+
     }
   }
   actualiser();
@@ -72,17 +72,18 @@ void game(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case map
   InitPlayer(player1,1);
   InitPlayer(player2,2);
   actualiser();
+  Input in;
+  // init SDL, chargement, tout ce que vous faites avant la boucle.
+  memset(&in,0,sizeof(in));
   while(!(player1->Victory) &&!(player2->Victory) )
   {
-    reinitialiser_evenements();
     attente(5);   
-    traiter_evenements();
-   
+    UpdateEvents(&in);
     move_player(player1);
     move_player(player2);
     deplacement(player1,map1);
     deplacement(player2,map2);
-    Is_pressed(player1,player2);
+    Is_pressed(player1,player2,in);
     reinitialiser_evenements();
     Victory(player1,player2,map1,map2);
     actualiser();
@@ -93,30 +94,50 @@ void game(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case map
   actualiser();
 }
 
-void Is_pressed(Player *player1,Player *player2)
+void Is_pressed(Player *player1,Player *player2,Input in)
 {
-  if(touche_a_ete_pressee(SDLK_UP) && !(player2->up.is_moving) && !(player2->left.is_moving)&& !(player2->right.is_moving) && !(player2->down.is_moving))
-    player2->up.pressed=1;
-  else if(touche_a_ete_pressee(SDLK_DOWN) && !(player2->up.is_moving) && !(player2->left.is_moving)&& !(player2->right.is_moving) && !(player2->down.is_moving))
-    player2->down.pressed=1;
-  else if(touche_a_ete_pressee(SDLK_LEFT) && !(player2->up.is_moving) && !(player2->left.is_moving)&& !(player2->right.is_moving) && !(player2->down.is_moving))
-    player2->left.pressed=1;
-  else if(touche_a_ete_pressee(SDLK_RIGHT) && !(player2->up.is_moving) && !(player2->left.is_moving)&& !(player2->right.is_moving) && !(player2->down.is_moving))
-    player2->right.pressed=1;
-  if(touche_a_ete_pressee(SDLK_z) && !(player1->up.is_moving) && !(player1->left.is_moving)&& !(player1->right.is_moving) && !(player1->down.is_moving))
-    player1->up.pressed=1;
-  else if(touche_a_ete_pressee(SDLK_s) && !(player1->up.is_moving) && !(player1->left.is_moving)&& !(player1->right.is_moving) && !(player1->down.is_moving))
-    player1->down.pressed=1;
-  else if(touche_a_ete_pressee(SDLK_q) && !(player1->up.is_moving) && !(player1->left.is_moving)&& !(player1->right.is_moving) && !(player1->down.is_moving))
-    player1->left.pressed=1;
-  else if(touche_a_ete_pressee(SDLK_d) && !(player1->up.is_moving) && !(player1->left.is_moving)&& !(player1->right.is_moving) && !(player1->down.is_moving))
-    player1->right.pressed=1;
 
+  if(in.key[SDLK_UP])
+    player2->up.pressed=1;
+  else
+    player2->up.pressed=0;
+  if(in.key[SDLK_DOWN])
+    player2->down.pressed=1;
+  else
+    player2->down.pressed=0;
+  if(in.key[SDLK_LEFT] )
+    player2->left.pressed=1;
+  else
+    player2->left.pressed=0;
+  if(in.key[SDLK_RIGHT])
+    player2->right.pressed=1;
+  else
+    player2->right.pressed=0;
+
+
+  if(in.key[SDLK_z] )
+    player1->up.pressed=1;
+  else
+    player1->up.pressed=0;
+  if(in.key[SDLK_s] )
+    player1->down.pressed=1;
+  else
+    player1->down.pressed=0;
+  if(in.key[SDLK_q] )
+    player1->left.pressed=1;
+  else
+    player1->left.pressed=0;
+  if(in.key[SDLK_d] )
+    player1->right.pressed=1;
+  else
+    player1->right.pressed=0;
 }
 void deplacement(Player *player1, Case map1[][H/lenght_Case])
 {
-  if(player1->up.pressed && !(map1[player1->position.x][(player1->position.y)-1].wall) && (player1->position.y>0))
+  if(!player1->up.is_moving && !player1->down.is_moving && !player1->left.is_moving && !player1->right.is_moving)
   {
+    if(player1->up.pressed && !(map1[player1->position.x][(player1->position.y)-1].wall) && (player1->position.y>0))
+    {
       printf("player1 %d\n",player1->Victory);
       player1->up.pressed=0;
       player1->down.pressed=0;
@@ -124,40 +145,40 @@ void deplacement(Player *player1, Case map1[][H/lenght_Case])
       player1->left.pressed=0;
       player1->up.is_moving=1;
       player1->position.y-=1;
-  }
-  if(player1->down.pressed && !(map1[player1->position.x][(player1->position.y)+1].wall) && (player1->position.y<(H/lenght_Case)-1))
-  { 
-    player1->up.pressed=0;
-    player1->down.pressed=0;
-    player1->right.pressed=0;
-    player1->left.pressed=0;
-    printf("player1 %d\n",player1->Victory);
-    player1->down.is_moving=1;
-    player1->position.y+=1;
-  }
+    }
+    if(player1->down.pressed && !(map1[player1->position.x][(player1->position.y)+1].wall) && (player1->position.y<(H/lenght_Case)-1))
+    { 
+      player1->up.pressed=0;
+      player1->down.pressed=0;
+      player1->right.pressed=0;
+      player1->left.pressed=0;
+      printf("player1 %d\n",player1->Victory);
+      player1->down.is_moving=1;
+      player1->position.y+=1;
+    }
 
-  if(player1->left.pressed && !(map1[player1->position.x-1][(player1->position.y)].wall) && (player1->position.x>0))
-  { 
-    player1->up.pressed=0;
-    player1->down.pressed=0;
-    player1->right.pressed=0;
-    player1->left.pressed=0;
-    printf("player1 %d\n",player1->Victory);
-    player1->left.pressed=0;
-    player1->left.is_moving=1;
-    player1->position.x-=1;
+    if(player1->left.pressed && !(map1[player1->position.x-1][(player1->position.y)].wall) && (player1->position.x>0))
+    { 
+      player1->up.pressed=0;
+      player1->down.pressed=0;
+      player1->right.pressed=0;
+      player1->left.pressed=0;
+      printf("player1 %d\n",player1->Victory);
+      player1->left.pressed=0;
+      player1->left.is_moving=1;
+      player1->position.x-=1;
+    }
+    if(player1->right.pressed && !(map1[player1->position.x+1][(player1->position.y)].wall) && (player1->position.x<(W/lenght_Case-1)))
+    {
+      player1->up.pressed=0;
+      player1->down.pressed=0;
+      player1->right.pressed=0;
+      player1->left.pressed=0;
+      printf("player1 %d\n",player1->Victory);
+      player1->right.is_moving=1;
+      player1->position.x+=1;
+    }
   }
-  if(player1->right.pressed && !(map1[player1->position.x+1][(player1->position.y)].wall) && (player1->position.x<(W/lenght_Case-1)))
-  {
-    player1->up.pressed=0;
-    player1->down.pressed=0;
-    player1->right.pressed=0;
-    player1->left.pressed=0;
-    printf("player1 %d\n",player1->Victory);
-    player1->right.is_moving=1;
-    player1->position.x+=1;
-  }
-
 
 }
 void move_player(Player *player)
@@ -171,7 +192,7 @@ void move_player(Player *player)
   if(player->right.is_moving>lenght_Case)
     player->right.is_moving=0;
 
- 
+
   if(player->up.is_moving)
   {
     graphic_anim_erase(player->pos_graphic.x,player->pos_graphic.y,(player->ID==1)?1:2);
@@ -234,17 +255,18 @@ void game_IA(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case 
   InitPlayer(player1,1);
   InitPlayer(player2,2);
   actualiser();
+  Input in;
+  // init SDL, chargement, tout ce que vous faites avant la boucle.
+  memset(&in,0,sizeof(in));
   while(!(player1->Victory) &&!(player2->Victory) )
   {
-    reinitialiser_evenements();
-    attente(5);   
-    traiter_evenements();
-   
+    attente(5);
+    UpdateEvents(&in);
     move_player(player1);
     move_player(player2);
     deplacement(player1,map1);
     deplacement_IA(player2,map2);
-    Is_pressed(player1,player2);
+    Is_pressed(player1,player2,in);
     reinitialiser_evenements();
     Victory(player1,player2,map1,map2);
     actualiser();

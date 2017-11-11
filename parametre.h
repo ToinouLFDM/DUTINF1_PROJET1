@@ -9,12 +9,10 @@
 #define W_Map W/lenght_Case
 #define H_Map H/lenght_Case
 
-
-
 typedef struct ITEM{
-	int key1;
-	int key2;
-	int key3;
+    int key1;
+    int key2;
+    int key3;
 }Item;
 
 
@@ -53,7 +51,7 @@ typedef struct CASE {
 	//une fct game qui gere la boucle du jeu
 	void game(Player *player1,Player *player2,Case map1[][H/lenght_Case],Case map2[][H/lenght_Case]);
 	//une fct qui gere le deplacement pour les deux joueurs en simultané
-	void Is_pressed(Player *player1,Player *player2);
+	void Is_pressed(Player *player1,Player *player2,Input in);
 	void deplacement(Player *player1, Case map1[][H/lenght_Case]);
 	void Victory(Player *player1,Player *player2,Case map1[][H/lenght_Case],Case map2[][H/lenght_Case]);
 	void move_player(Player *player);
