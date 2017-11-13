@@ -6,13 +6,23 @@ Point bigest_path(Point p,Case map[][H_Map])
 }
 
 //retroune les coordonée du point a choisir pour l'IA
-Point path_IA(Point player,Case map[][H_Map])
+Point path_IA(Player *player,Case map[][H_Map])
 {
-  tree *Tree=initree(player);
+  tree *Tree=initree(player->position);
   printf("yolo1\n");
-  build_tree(map,player,Tree);
+  build_tree(map,player->position,Tree);
   printf("yolo2\n");
-  tree *node_exit=find_exit(Tree,map);
+  tree *node_exit;
+  if(!player->own.key1)
+    node_exit=find_exit(Tree,map,3);
+  else if(!player->own.key2)
+    node_exit=find_exit(Tree,map,2);
+  else if(!player->own.key3)
+    node_exit=find_exit(Tree,map,1);
+  else
+    node_exit=find_exit(Tree,map,0);
+  if(node_exit==NULL)
+    node_exit=initree(player->position);
   printf("sortie de find_exit-> %d,%d\n",node_exit->value.x,node_exit->value.y);
   Point p=find_path(node_exit);
   printf("sortie de find_path-> %d,%d\n",p.x,p.y);
@@ -20,34 +30,55 @@ Point path_IA(Point player,Case map[][H_Map])
 
 }
 //parcours l'arbre pour trouver le chemin vers la sortie retourne le noeud contenant les coordonnées de la sortie
-tree *find_exit(tree *Tree,Case map[][H_Map])
+tree *find_exit(tree *Tree,Case map[][H_Map],int search)
 {
-  if(map[Tree->value.x][Tree->value.y].exit)
+  switch(search)
   {
-    printf("sortie trouvé -> %d,%d\n",Tree->value.x,Tree->value.y);
-    return Tree;
+    case 0:
+      if(map[Tree->value.x][Tree->value.y].exit)
+      {
+	printf("sortie trouvé-> %d,%d search-> %d\n",Tree->value.x,Tree->value.y,search);
+	return Tree;
+      }
+      break;
+
+    case 1:
+      if(map[Tree->value.x][Tree->value.y].own.key3)
+	return Tree;
+      break;
+
+    case 2:
+      if(map[Tree->value.x][Tree->value.y].own.key2)
+	return Tree;
+      break;
+
+    case 3:
+      if(map[Tree->value.x][Tree->value.y].own.key1)
+	return Tree;
+      break;
+
   }
   if(Tree->left!=NULL)
   {
-    tree *a= find_exit(Tree->left,map);
+    tree *a= find_exit(Tree->left,map,search);
     if(a!=NULL)
       return a;
   }
   if(Tree->right!=NULL)
   {
-    tree *a=find_exit(Tree->right,map);
+    tree *a=find_exit(Tree->right,map,search);
     if(a!=NULL)
       return a;
   }
   if(Tree->top!=NULL)
   {
-     tree *a=find_exit(Tree->top,map);
+     tree *a=find_exit(Tree->top,map,search);
      if(a!=NULL)
        return a;
   }
   if(Tree->bot!=NULL)
   {
-    tree *a= find_exit(Tree->bot,map);
+    tree *a= find_exit(Tree->bot,map,search);
     if(a!=NULL)
       return a;
   }
@@ -109,8 +140,6 @@ void build_tree(Case map[][H_Map],Point p,tree *node)
 
 void build_tree_rec(Case map[][H_Map], Point p,tree *node)
 {
-  printf("%d,%d ",node->value.x,node->value.y);
-  printf("-> est la sortie: %d\n",map[node->value.x][node->value.y].exit);
   if(node->dad==NULL)
     return;
   if( !map[p.x+1][p.y].wall && p.x+1!=node->dad->value.x)

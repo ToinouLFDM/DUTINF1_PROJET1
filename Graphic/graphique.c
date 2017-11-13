@@ -110,6 +110,20 @@ void graphic_wall(int i, int j, int nb_map)
   }
   dessiner_rectangle(p, lenght_Case, lenght_Case, black);
 }
+void graphic_key(int i, int j, int nb_map)
+{
+  Point p;
+  if (nb_map==2){
+    p.x=W+lenght_Case+(i*lenght_Case);
+    p.y=j*lenght_Case;
+  }
+  else{
+    p.x=i*lenght_Case;
+    p.y=j*lenght_Case;
+
+  }
+  dessiner_rectangle(p, lenght_Case, lenght_Case, darkgreen);
+}
 
 void screen_victory(Player *player1, Player *player2)
 {

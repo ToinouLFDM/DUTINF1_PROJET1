@@ -10,6 +10,12 @@ void init_maps(Case map1[][H/lenght_Case],Case map2[][H/lenght_Case])
       map2[i][j].exit=0;
       map1[i][j].wall=0;
       map2[i][j].wall=0;
+      map1[i][j].own.key1=0;
+      map2[i][j].own.key1=0;
+      map1[i][j].own.key2=0;
+      map2[i][j].own.key2=0;
+      map1[i][j].own.key3=0;
+      map2[i][j].own.key3=0;
       i++;
     }
     j++;
@@ -20,9 +26,12 @@ void make_Maze(Case map1[][H_Map],Case map2[][H_Map],Player *player1,Player *pla
 {
   int x=0,y;
   generator_Maze(map1);
+  int y_key1=entier_aleatoire(H_Map-1)/2;
+  int y_key2=entier_aleatoire(H_Map-1)/2+H_Map/2;
+  int y_key3=entier_aleatoire(H_Map-1)/2+H_Map/2;
   int y_p=entier_aleatoire(H_Map-1)/2+1;
   int y_e=entier_aleatoire(H_Map-1)/2 +H_Map/2;
-  int a=0,b=0;
+  int player_done=0,exit_done=0,key1_done=0,key2_done=0,key3_done=0;
   for(;x<W_Map;x++)
   {
     for(y=0;y<H_Map;y++)
@@ -35,7 +44,7 @@ void make_Maze(Case map1[][H_Map],Case map2[][H_Map],Player *player1,Player *pla
       }
       if(y_p==y)
       {
-	if(map1[x][y].wall!=1 && !a)
+	if(map1[x][y].wall!=1 && !player_done)
 	{
 	  player1->position.x=x;
 	  player1->position.y=y;
@@ -47,18 +56,51 @@ void make_Maze(Case map1[][H_Map],Case map2[][H_Map],Player *player1,Player *pla
 	  player2->pos_graphic.y=y*lenght_Case;
 	  graphic_player(x,y,1);
 	  graphic_player(x,y,2);
-	  a=1;
+	  player_done=1;
 	}
       }
-      if(y_e==y)
+      if(y_e==y && x>W_Map/2)
       {
-	if(map1[x][y].wall!=1 && !b)
+	if(map1[x][y].wall!=1 && !exit_done)
 	{
 	  map1[x][y].exit=1;
 	  map2[x][y].exit=1;
 	  graphic_exit(x,y,1);
 	  graphic_exit(x,y,2);
-	  b=1;
+	  exit_done=1;
+	}
+      }
+      if(y_key1==y && x>W_Map/2)
+      {
+	if(map1[x][y].wall!=1 && !key1_done)
+	{
+	map1[x][y].own.key1=1;
+	map2[x][y].own.key1=1;
+	key1_done=1;
+	graphic_key(x,y,1);
+	graphic_key(x,y,2);
+	}
+      }
+      if(y_key2==y)
+      {
+	if(map1[x][y].wall!=1 && !key2_done)
+	{
+	  map1[x][y].own.key2=1;
+	  map2[x][y].own.key2=1;
+	  key2_done=1;
+	  graphic_key(x,y,1);
+	  graphic_key(x,y,2);
+	}
+      }
+      if(y_key3==y)
+      {
+	if(map1[x][y].wall!=1 && !key3_done)
+	{
+	  map1[x][y].own.key3=1;
+	  map2[x][y].own.key3=1;
+	  key3_done=1;
+	  graphic_key(x,y,1);
+	  graphic_key(x,y,2);
 	}
       }
 
@@ -77,7 +119,9 @@ void game(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case map
   memset(&in,0,sizeof(in));
   while(!(player1->Victory) &&!(player2->Victory) )
   {
-    attente(5);   
+    attente(5);
+    pick_Item(map1,player1);  //si un item est present sur le labyrinthe il est attribué au player 
+    pick_Item(map2,player2);  //idem pour le deuxieme joueur
     UpdateEvents(&in);
     move_player(player1);
     move_player(player2);
@@ -228,8 +272,11 @@ void move_player(Player *player)
 }
 void Victory(Player *player1, Player *player2,Case map1[][H/lenght_Case],Case map2[][H/lenght_Case])
 {
-  player1->Victory=map1[player1->position.x][player1->position.y].exit;
-  player2->Victory=map2[player2->position.x][player2->position.y].exit;  
+  if(player1->own.key1 && player1->own.key2 && player1->own.key3)
+    player1->Victory=map1[player1->position.x][player1->position.y].exit;
+  if(player2->own.key1 && player2->own.key2 && player2->own.key3)
+    player2->Victory=map2[player2->position.x][player2->position.y].exit;  
+  
 }
 
 void InitPlayer(Player *player1,int id)
@@ -261,6 +308,8 @@ void game_IA(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case 
   while(!(player1->Victory) &&!(player2->Victory) )
   {
     attente(5);
+    pick_Item(map1,player1);
+    pick_Item(map2,player2);
     UpdateEvents(&in);
     move_player(player1);
     move_player(player2);
@@ -282,7 +331,7 @@ void deplacement_IA(Player *player,Case map[][H_Map])
   Point tmp=player->position;
   int a=entier_aleatoire(difficulty);
   if(!player->up.is_moving && !player->down.is_moving && !player->right.is_moving && !player->left.is_moving && a==1)
-    player->position=path_IA(player->position,map);
+    player->position=path_IA(player,map);
   switch(tmp.x-player->position.x)
   {
     case 1:
@@ -303,3 +352,22 @@ void deplacement_IA(Player *player,Case map[][H_Map])
 
 }
 
+void pick_Item(Case map[][H_Map], Player *player)
+{
+  Point p={player->position.x,player->position.y};
+  if(map[p.x][p.y].own.key1)
+  {
+    map[p.x][p.y].own.key1=0;
+    player->own.key1=1;
+  }
+  if(map[p.x][p.y].own.key2)
+  {
+    player->own.key2=1;
+    map[p.x][p.y].own.key1=0;
+  }
+  if(map[p.x][p.y].own.key3)
+  {
+    player->own.key3=1;
+    map[p.x][p.y].own.key3=0;
+  }
+}

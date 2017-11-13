@@ -1,7 +1,7 @@
 //Important//
 1->Menu(animation et option)
-2->SDL deplacement a modifier
-3->key a implementer
+2->SDL deplacement a modifer(diagonale)
+3->graphic a rajouter
 //optionnel//
 4->amelioration IA(avec un systeme de leure placé aleatoire sur des feuilles)
 5->ameliroation spawn aleatoire des sorties et clé
