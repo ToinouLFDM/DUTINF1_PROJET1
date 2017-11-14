@@ -80,6 +80,9 @@ typedef struct CASE {
 	void graphic_wall(int , int , int nb_map);
 	void graphic_key(int,int, int nb_map);
 	void screen_victory(Player *player1, Player *player2);
+
+//Menu
+    void load_screen(int percent);
 //MAZE
   void generator(Case map[][H/lenght_Case]);
   int check_Map(Case map[][H/lenght_Case]);

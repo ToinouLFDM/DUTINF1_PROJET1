@@ -1,8 +1,7 @@
 void init_maps(Case map1[][H/lenght_Case],Case map2[][H/lenght_Case])
 {
   int i=0, j=0;
-  init_ecran(gray);
-  while (j<(H/lenght_Case))
+    while (j<(H/lenght_Case))
   {
     while(i<(W/lenght_Case))
     {
@@ -26,7 +25,8 @@ void make_Maze(Case map1[][H_Map],Case map2[][H_Map],Player *player1,Player *pla
 {
   int x=0,y;
   generator_Maze(map1);
-  int y_key1=entier_aleatoire(H_Map-1)/2;
+  init_ecran(gray);
+  int y_key1=entier_aleatoire(H_Map-  1)/2;
   int y_key2=entier_aleatoire(H_Map-1)/2+H_Map/2;
   int y_key3=entier_aleatoire(H_Map-1)/2+H_Map/2;
   int y_p=entier_aleatoire(H_Map-1)/2+1;
@@ -121,7 +121,7 @@ void game(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case map
   {
     attente(5);
     pick_Item(map1,player1);  //si un item est present sur le labyrinthe il est attribué au player 
-    pick_Item(map2,player2);  //idem pour le deuxieme joueur
+    pick_Item(map2,player2); //idem pour le deuxieme joueur
     UpdateEvents(&in);
     move_player(player1);
     move_player(player2);
@@ -141,11 +141,11 @@ void game(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case map
 void Is_pressed(Player *player1,Player *player2,Input in)
 {
 
-  if(in.key[SDLK_UP])
+  if(in.key[SDLK_UP] )
     player2->up.pressed=1;
   else
     player2->up.pressed=0;
-  if(in.key[SDLK_DOWN])
+  if(in.key[SDLK_DOWN] )
     player2->down.pressed=1;
   else
     player2->down.pressed=0;
@@ -153,11 +153,11 @@ void Is_pressed(Player *player1,Player *player2,Input in)
     player2->left.pressed=1;
   else
     player2->left.pressed=0;
-  if(in.key[SDLK_RIGHT])
+  if(in.key[SDLK_RIGHT] )
     player2->right.pressed=1;
   else
     player2->right.pressed=0;
-
+ 
 
   if(in.key[SDLK_z] )
     player1->up.pressed=1;
@@ -183,19 +183,19 @@ void deplacement(Player *player1, Case map1[][H/lenght_Case])
     if(player1->up.pressed && !(map1[player1->position.x][(player1->position.y)-1].wall) && (player1->position.y>0))
     {
       printf("player1 %d\n",player1->Victory);
-      player1->up.pressed=0;
+     // player1->up.pressed=0;
       player1->down.pressed=0;
-      player1->right.pressed=0;
-      player1->left.pressed=0;
+      //player1->right.pressed=0;
+      //player1->left.pressed=0;
       player1->up.is_moving=1;
       player1->position.y-=1;
     }
     if(player1->down.pressed && !(map1[player1->position.x][(player1->position.y)+1].wall) && (player1->position.y<(H/lenght_Case)-1))
     { 
       player1->up.pressed=0;
-      player1->down.pressed=0;
-      player1->right.pressed=0;
-      player1->left.pressed=0;
+      //player1->down.pressed=0;
+      //player1->right.pressed=0;
+      //player1->left.pressed=0;
       printf("player1 %d\n",player1->Victory);
       player1->down.is_moving=1;
       player1->position.y+=1;
@@ -203,10 +203,10 @@ void deplacement(Player *player1, Case map1[][H/lenght_Case])
 
     if(player1->left.pressed && !(map1[player1->position.x-1][(player1->position.y)].wall) && (player1->position.x>0))
     { 
-      player1->up.pressed=0;
-      player1->down.pressed=0;
+      //player1->up.pressed=0;
+      //player1->down.pressed=0;
       player1->right.pressed=0;
-      player1->left.pressed=0;
+      //player1->left.pressed=0;
       printf("player1 %d\n",player1->Victory);
       player1->left.pressed=0;
       player1->left.is_moving=1;
@@ -214,9 +214,9 @@ void deplacement(Player *player1, Case map1[][H/lenght_Case])
     }
     if(player1->right.pressed && !(map1[player1->position.x+1][(player1->position.y)].wall) && (player1->position.x<(W/lenght_Case-1)))
     {
-      player1->up.pressed=0;
-      player1->down.pressed=0;
-      player1->right.pressed=0;
+      //player1->up.pressed=0;
+      //player1->down.pressed=0;
+      //player1->right.pressed=0;
       player1->left.pressed=0;
       printf("player1 %d\n",player1->Victory);
       player1->right.is_moving=1;

@@ -1,5 +1,6 @@
 #include "parametre.h"
 #include "Graphic/graphique.c"
+#include "Graphic/menu.c"
 #include "Game/game.c"
 #include "Generator/generator_Maze_v2.c"
 #include "IA/tree.c"

@@ -2,7 +2,6 @@ void generator_Maze(Case map[][H_Map])
 {
   int tab[W_Map][H_Map]={{0}};
   init_Lab(map,tab);
-  actualiser();
   int loop=0;
   while(!(is_Perfect(tab)))
   {
@@ -11,9 +10,15 @@ void generator_Maze(Case map[][H_Map])
     debug_Print_Tab(tab);
     loop+=1;
     printf("loop count -> %d",loop);
-    actualiser();
+    load_screen((loop/22));
   }
-
+  while(loop/22<=102)
+  {
+    load_screen(loop/22);
+    loop+=1;
+    printf("loop count -> %d",loop);
+    attente(25);
+  }
 }
 
 void init_Lab(Case map[][H_Map],int tab[][H_Map])
@@ -26,7 +31,6 @@ void init_Lab(Case map[][H_Map],int tab[][H_Map])
       if(!(y%2))
       {
 	map[x][y].wall=1;
-	graphic_wall(x,y,1);
 	tab[x][y]=0;
       }
       else
@@ -34,7 +38,6 @@ void init_Lab(Case map[][H_Map],int tab[][H_Map])
 	if(!(x%2))
 	{
 	  map[x][y].wall=1;
-	  graphic_wall(x,y,1);
 	  tab[x][y]=0;
 	}
 	else
@@ -77,7 +80,6 @@ void break_Wall(Case map[][H_Map],int tab[][H_Map])
 	if(alea==1)
 	{
 	  map[x][y].wall=0;
-	  graphic_case(x,y,1);
 	  set_Path(tab,x,y);
 	  return;
 	}
