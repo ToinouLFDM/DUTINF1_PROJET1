@@ -1,41 +1,17 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
-#include <signal.h>
-
-#include <netdb.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <unistd.h>
-#include <string.h>
-#include <arpa/inet.h>
-
-#include "../parametre.h"
-
-#define SERVEURNAME "127.0.0.1"
-
-
-
-struct sockaddr_in;
-struct hostent;
-
-
-
-int to_server_socket = -1;
 void send_map (char buffer[])
 {
-  char *server_name = SERVEURNAME;
+  char *server_name = SERVEURNAME1;
   struct sockaddr_in serverSockAddr;
   struct hostent *serverHostEnt;
   long hostAddr;
   long status;
   bzero(&serverSockAddr,sizeof(serverSockAddr));
-  hostAddr = inet_addr(SERVEURNAME);
+  hostAddr = inet_addr(SERVEURNAME1);
   if ( (long)hostAddr != (long)-1)
     bcopy(&hostAddr,&serverSockAddr.sin_addr,sizeof(hostAddr));
   else
   {
-    serverHostEnt = gethostbyname(SERVEURNAME);
+    serverHostEnt = gethostbyname(SERVEURNAME1);
     if (serverHostEnt == NULL)
     {
       printf("gethost rate\n");
@@ -108,7 +84,3 @@ void call_send_map(Case map[][H_Map])
   printf ("Fin de l'envoi de la map");
 }
 
-int main ()
-{
-  return 0;
-}

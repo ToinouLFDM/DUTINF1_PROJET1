@@ -150,6 +150,7 @@ void screen_victory(Player *player1, Player *player2)
     afficher_image_resize("picture/victory_player2.bmp",corner,size);
 
   actualiser();
+   attente(2000);
    attendre_touche();
 
 }
@@ -248,7 +249,10 @@ int Menu_play()
 
       case 2:
 	afficher_image_resize("picture/Menu_template_multiplayer.bmp",corner,size);
+	if(b)
+	  done=1;
 	break;
+
     }
     if(touche==SDLK_BACKSPACE)
     {

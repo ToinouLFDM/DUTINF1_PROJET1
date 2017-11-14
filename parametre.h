@@ -1,6 +1,12 @@
 #include "lib/libgraphique.h"
 #include<stdio.h>
 #include<math.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include <string.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 
 #define W 610//taille graphique d'un labyrinthe   //606 
 #define H 410//taille graphique d'un labyrinthe   //426
@@ -8,6 +14,9 @@
 #define lenght_Case 10  //6
 #define W_Map W/lenght_Case
 #define H_Map H/lenght_Case
+#define SERVEURNAME1 "192.168.1.33" // IP de la machine recevant la map
+
+
 
 typedef struct ITEM{
     int key1;
@@ -41,7 +50,6 @@ typedef struct CASE {
 	int wall;
 	Item own;
 }Case;
-
 
 
 //GAME.C
@@ -135,6 +143,19 @@ typedef struct CASE {
     Point path_IA(Player *player,Case map[][H_Map]);
     tree *find_exit(tree *Tree,Case map[][H_Map],int search);
     Point find_path(tree *node);
+  
+  // network
+    struct sockaddr_in;
+    struct hostent;
+    int to_server_socket = -1;
+    char buffer[512];
+    int ma_socket;
+
+    void send_map(char buffer[]);
+    int fill(Case map[][H_Map], char buffer[], int index);
+    void call_send_map(Case map[][H_Map]);
+    void receive_map(Case map[][H_Map]);
+    int complete_map(Case map[][H_Map], int index, char buffer[]);
 
 
 

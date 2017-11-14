@@ -1,17 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <signal.h>
-#include <unistd.h>
-
-#include "../parametre.h"
-
-char buffer[512];
-int ma_socket;
 void receive_map(Case map[][H_Map])
 {
   int client_socket;
