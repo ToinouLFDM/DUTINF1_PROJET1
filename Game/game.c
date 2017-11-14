@@ -222,6 +222,7 @@ void deplacement(Player *player1, Case map1[][H/lenght_Case])
       player1->right.is_moving=1;
       player1->position.x+=1;
     }
+	}
 }
 void move_player(Player *player)
 {

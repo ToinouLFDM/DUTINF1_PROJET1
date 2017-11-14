@@ -27,15 +27,17 @@ void main()
 		}
 		if(type_partie==2)
 		{
-			game_IA(&player1,&player2,map1,map2);
 			make_Maze(map1,map2,&player1,&player2);
+			game_IA(&player1,&player2,map1,map2);
+			
 		}
 		if(type_partie==3)
 		{
 			make_Maze_multi(map1,map2,&player1,&player2);
 			game_multi(&player1,&player2,map1,map2);
 		}
-		type_partie=Menu();
+		else
+			type_partie=Menu();
 	}
 	// fin de la session graphique
 	fermer_fenetre();

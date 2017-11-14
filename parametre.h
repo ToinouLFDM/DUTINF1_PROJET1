@@ -72,7 +72,8 @@ typedef struct CASE {
 
         void graphique_anim(int , int ,int nb_map);
 	void graphic_anim_erase(int , int ,int nb_map);
-
+	void make_Maze_multi(Case map1[][H_Map],Case map2[][H_Map],Player *player1,Player *player2);
+	void game_multi(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case map2[][H/lenght_Case]);
 	int Menu();//gere le menu renvoie un int coorespondant au type de partie choisie
 	int Menu_play();//gere le sous menu play revoie un int correspondant au type de partie choisie
 //graphique
