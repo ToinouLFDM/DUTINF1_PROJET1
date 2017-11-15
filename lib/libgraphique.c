@@ -225,6 +225,7 @@ void afficher_image(char *nom, Point coin){
 
 void afficher_image_resize(char *nom, Point coin, Point taille ){
   SDL_Surface *img = SDL_LoadBMP(nom);
+  SDL_SetColorKey(img, SDL_SRCCOLORKEY, SDL_MapRGB(img->format, 0, 0, 255));
   SDL_Rect position_img ;
   position_img.x = coin.x;
   position_img.y = coin.y;

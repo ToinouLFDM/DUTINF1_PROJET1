@@ -336,6 +336,8 @@ void game_IA(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case 
   // init SDL, chargement, tout ce que vous faites avant la boucle.
   memset(&in,0,sizeof(in));
   Point fake_exit_pos={0,0};
+  int time_init=SDL_GetTicks();
+  int delta_time=time_init;
   int fake_exit=entier_aleatoire(difficulty/5+1);
   while(!(player1->Victory) &&!(player2->Victory) )
   {
@@ -343,6 +345,8 @@ void game_IA(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case 
     dessiner_timer(0,0,0);
     pick_Item(map1,player1);
     pick_Item(map2,player2);
+    delta_time=SDL_GetTicks()-time_init;
+    dessiner_timer((delta_time%3600000)/60000,(delta_time%60000)/1000,(delta_time%1000)/10);
     UpdateEvents(&in);
     move_player(player1);
     move_player(player2);
@@ -355,6 +359,8 @@ void game_IA(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case 
   }
   reinitialiser_evenements();
   screen_victory(player1,player2);
+  if(player1->Victory)
+	  Input_file(delta_time/60000,(delta_time%60000)/1000,(delta_time%1000)/10);
   traiter_evenements();
   actualiser();
 }
@@ -426,7 +432,7 @@ void pick_Item(Case map[][H_Map], Player *player)
   if(map[p.x][p.y].own.key2)
   {
     player->own.key2=1;
-    map[p.x][p.y].own.key1=0;
+    map[p.x][p.y].own.key2=0;
   }
   if(map[p.x][p.y].own.key3)
   {

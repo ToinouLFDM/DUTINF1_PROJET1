@@ -48,7 +48,8 @@ void graphic_player(int i, int j,int nb_map)
     Point p={i*lenght_Case,j*lenght_Case};
     pp=p;
   }
-  dessiner_rectangle(pp, lenght_Case, lenght_Case,darkblue);
+  Point size={lenght_Case,lenght_Case};
+  afficher_image_resize("picture/Case_player.bmp",pp,size);
 }
 void graphic_anim(int pos_graph_x, int pos_graph_y, int nb_map)
 {
@@ -63,7 +64,8 @@ void graphic_anim(int pos_graph_x, int pos_graph_y, int nb_map)
     p.x=pos_graph_x;
     p.y=pos_graph_y;
   }
-  dessiner_rectangle(p,lenght_Case,lenght_Case,darkblue);
+  Point size={lenght_Case,lenght_Case};
+  afficher_image_resize("picture/Case_player.bmp",p,size);
 }
 void graphic_anim_erase(int pos_graph_x, int pos_graph_y, int nb_map)
 {
@@ -92,7 +94,8 @@ void graphic_exit(int i, int j, int nb_map)
     Point p={i*lenght_Case,j*lenght_Case};
     pp=p;
   }
-  dessiner_rectangle(pp, lenght_Case, lenght_Case,jaune);
+  Point size={lenght_Case,lenght_Case};
+  afficher_image_resize("picture/Case_exit.bmp",pp,size);
 }
 
 
@@ -108,7 +111,8 @@ void graphic_wall(int i, int j, int nb_map)
     p.y=j*lenght_Case;
 
   }
-  dessiner_rectangle(p, lenght_Case, lenght_Case, black);
+  Point size={lenght_Case,lenght_Case};
+  afficher_image_resize("picture/Case_wall.bmp",p,size);
 }
 void graphic_key(int i, int j, int nb_map)
 {
@@ -122,13 +126,14 @@ void graphic_key(int i, int j, int nb_map)
     p.y=j*lenght_Case;
 
   }
-  dessiner_rectangle(p, lenght_Case, lenght_Case, darkgreen);
+  Point size={lenght_Case,lenght_Case};
+  afficher_image_resize("picture/Case_key.bmp",p,size);
 }
 
 void screen_victory(Player *player1, Player *player2)
 {
   Point corner={0,0};
-  Point size={W,H};
+  Point size={(W*2)+lenght_Case,H+lenght_Case*H_Map/4};
   dessiner_rectangle(corner,W+W+lenght_Case,H,black);
   corner.x=W/2;
   /*
@@ -221,7 +226,7 @@ int Menu()
 int Menu_play()
 {
   Point corner={0,0};
-  Point size={W*2,H+lenght_Case*H_Map/4};
+  Point size={(W*2)+lenght_Case,H+lenght_Case*H_Map/4};
   afficher_image_resize("picture/Menu_template_hotseat.bmp",corner,size);
   int a=0;
   actualiser();

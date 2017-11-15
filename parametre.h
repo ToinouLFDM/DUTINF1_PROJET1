@@ -8,10 +8,10 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-#define W 610//taille graphique d'un labyrinthe   //606 
-#define H 410//taille graphique d'un labyrinthe   //426
+#define W 656//taille graphique d'un labyrinthe   //606 
+#define H 560//taille graphique d'un labyrinthe   //426
 #define difficulty 20
-#define lenght_Case 10  //6
+#define lenght_Case 16  //6
 #define W_Map W/lenght_Case
 #define H_Map H/lenght_Case
 #define SERVEURNAME1 "192.168.1.33" // IP de la machine recevant la map
