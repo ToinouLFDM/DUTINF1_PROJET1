@@ -2,11 +2,13 @@
 #include "Graphic/graphique.c"
 #include "Graphic/menu.c"
 #include "Game/game.c"
+#include "Game/game_ia.c"
+#include "Game/game_multi.c"
 #include "Generator/generator_Maze_v2.c"
 #include "IA/tree.c"
 #include "IA/ia.c"
-#include "network/sent_map.c"
-#include "network/receive_map.c"
+//#include "network/sent_map.c"
+//#include "network/receive_map.c"
 
 void main()
 {	

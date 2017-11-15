@@ -65,17 +65,20 @@ typedef struct CASE {
 	void move_player(Player *player);
 	void InitPlayer(Player *player1,int id);
 	void pick_Item(Case map[][H_Map],Player *player);
-	//IA GAME
+	
+	
+	
+//IA GAME_IA.C
 	//deplace le joueur IA vers la sortie
 	void deplacement_IA(Player *player,Case map[][H_Map],int *fake_exit,Point *fake_exit_pos);
 	void game_IA(Player *player1,Player *player2,Case map1[][H_Map],Case map2[][H_Map]);
 
-        void graphique_anim(int , int ,int nb_map);
-	void graphic_anim_erase(int , int ,int nb_map);
+
+
+//IA GAME_MULTI.C  
 	void make_Maze_multi(Case map1[][H_Map],Case map2[][H_Map],Player *player1,Player *player2);
 	void game_multi(Player *player1, Player *player2, Case map1[][H/lenght_Case], Case map2[][H/lenght_Case]);
-	int Menu();//gere le menu renvoie un int coorespondant au type de partie choisie
-	int Menu_play();//gere le sous menu play revoie un int correspondant au type de partie choisie
+
 //graphique
 	//fct fond d'ecran
 	void init_ecran(Couleur c);
@@ -90,11 +93,16 @@ typedef struct CASE {
 	void graphic_key(int,int, int nb_map);
 	void screen_victory(Player *player1, Player *player2);
 	void dessiner_timer(int timer_min,int timer_sec,int timer_cent_sec);//affiche les minutes les secondes et les centiemes de seconde 
+	void afficher_key(Player *player1,Player *player2);
 
 //Menu
     void load_screen(int percent);
     void load_file();
     void Input_file(int Timer_min,int Timer_sec,int);
+    int Menu_display(int is_selected);
+    int Menu_play_display(int is_selected);
+    int Menu() ;//gere le menu renvoie un int coorespondant au type de partie choisie
+    int Menu_play();//gere le sous menu play revoie un int correspondant au type de partie choisie
 //MAZE
   void generator(Case map[][H/lenght_Case]);
   int check_Map(Case map[][H/lenght_Case]);

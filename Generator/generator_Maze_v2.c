@@ -3,6 +3,9 @@ void generator_Maze(Case map[][H_Map])
   int tab[W_Map][H_Map]={{0}};
   init_Lab(map,tab);
   int loop=0;
+  Point corner2={0,0};
+	Point size={W*2,H+lenght_Case*H_Map/4};
+	afficher_image_resize("picture/Menu_template.bmp",corner2,size);
   while(!(is_Perfect(tab)))
   {
     break_Wall(map,tab);

@@ -133,7 +133,7 @@ void graphic_key(int i, int j, int nb_map)
 void screen_victory(Player *player1, Player *player2)
 {
   Point corner={0,0};
-  Point size={(W*2)+lenght_Case,H+lenght_Case*H_Map/4};
+  Point size={W*2,H+lenght_Case*H_Map/4};
   dessiner_rectangle(corner,W+W+lenght_Case,H,black);
   corner.x=W/2;
   /*
@@ -159,124 +159,7 @@ void screen_victory(Player *player1, Player *player2)
    attendre_touche();
 
 }
-int Menu() 
-{
-  Point corner={0,0};
-  Point size={W*2,H+lenght_Case*H_Map/4};
-  afficher_image_resize("picture/Menu_template_play.bmp",corner,size);
-  int a=0;
-  actualiser();
-  int done=0;
-  int type_partie=0;
-  while(!done)
-  {
-    attente(100);
-    int touche=attendre_touche();
-    printf("%d\n ",a);
-    if((touche==SDLK_UP || touche==SDLK_z)&& a>0 )
-    {
-      a-=1;
-    }
-    if((touche==SDLK_DOWN || touche==SDLK_s) && a<2)
-    {
-      a+=1;
-    }
-    int b=0;
-    if(touche==SDLK_RETURN)
-      b=1;
-    printf("%d\n ",a);
-    switch(a)
-    {
-      case 0:
-				afficher_image_resize("picture/Menu_template_play.bmp",corner,size);
-	if(b)
-	{
-	  done=1;
-	  type_partie=Menu_play();
-	}
-	break;
 
-      case 1:
-			afficher_image_resize("picture/Menu_template_option.bmp",corner,size);
-			if(b)
-			{
-				load_file();
-				actualiser();
-				attente(200);
-				attendre_touche();
-				afficher_image_resize("picture/Menu_template_option.bmp",corner,size);
-				actualiser();
-				b=0;
-			}
-  	break;
-
-      case 2:
-	afficher_image_resize("picture/Menu_template_quit.bmp",corner,size);
-	if(b)
-	{
-	done=1;
-	type_partie=0;
-	}
-	break;
-    }
-    actualiser(); 
-  }
-  return type_partie;
-}
-int Menu_play()
-{
-  Point corner={0,0};
-  Point size={(W*2)+lenght_Case,H+lenght_Case*H_Map/4};
-  afficher_image_resize("picture/Menu_template_hotseat.bmp",corner,size);
-  int a=0;
-  actualiser();
-  int done=0;
-  while(!done)
-  {
-    attente(100);
-    int touche=attendre_touche();
-    printf("%d\n ",a);
-    if((touche==SDLK_UP || touche==SDLK_z)&& a>0 )
-    {
-      a-=1;
-    }
-    if((touche==SDLK_DOWN || touche==SDLK_s) && a<2)
-    {
-      a+=1;
-    }
-    int b=0;
-    if(touche==SDLK_RETURN)
-      b=1;
-    printf("%d\n ",a);
-    switch(a)
-    {
-      case 0:
-	afficher_image_resize("picture/Menu_template_hotseat.bmp",corner,size);
-	if(b)
-	  done=1;
-	break;
-
-      case 1:
-	afficher_image_resize("picture/Menu_template_ia.bmp",corner,size);
-	if(b)
-	  done=1;
-  	break;
-
-      case 2:
-	afficher_image_resize("picture/Menu_template_multiplayer.bmp",corner,size);
-	if(b)
-	  done=1;
-	break;
-
-    }
-    if(touche==SDLK_BACKSPACE)
-    {
-      return Menu();
-    }
-    actualiser(); 
-  }
-  return a+1;
-}
 void dessiner_timer(int timer_min,int timer_sec,int timer_cent_sec)
 {
 	Point p={W,H+lenght_Case};
@@ -301,7 +184,44 @@ void dessiner_timer(int timer_min,int timer_sec,int timer_cent_sec)
   p.x-=taille_texte(text,30).x/2;
   dessiner_rectangle(p,taille_texte(text,30).x,taille_texte(text,30).y,gray);
   printf("%s\n",text);
-	afficher_texte(text,30,p,red);
+	afficher_texte(text,30,p,darkred);
 	if(timer_cent_sec==0)
 		actualiser();
+}
+void afficher_key(Player *player1,Player *player2)
+{
+	Point p={lenght_Case+W/2,H+lenght_Case};
+	int count=0;
+	if(player1->own.key1)
+		count+=1;
+	if(player1->own.key2)
+		count+=1;
+	if(player1->own.key3)
+		count+=1;
+		
+	char text[120];
+	
+	sprintf(text,"cle Joueur1 -> %d",count);
+	p.x-=taille_texte(text,20).x/2;
+	dessiner_rectangle(p,taille_texte(text,20).x,taille_texte(text,20).y,gray);
+	afficher_texte(text,20,p,darkred);
+	
+	Point pp={W+lenght_Case+W/2,H+lenght_Case};
+	count=0;
+	if(player2->own.key1)
+		count+=1;
+	if(player2->own.key2)
+		count+=1;
+	if(player2->own.key3)
+		count+=1;
+	char text2[120];
+	
+	sprintf(text2,"cle Joueur2 -> %d",count);
+	pp.x-=taille_texte(text,20).x/2;
+	dessiner_rectangle(pp,taille_texte(text,20).x,taille_texte(text,20).y,gray);
+	afficher_texte(text2,20,pp,darkred);
+	
+	
+	
+	
 }
