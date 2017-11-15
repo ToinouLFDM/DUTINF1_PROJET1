@@ -7,17 +7,18 @@ void generator_Maze(Case map[][H_Map])
   {
     break_Wall(map,tab);
     actualiser();
-    debug_Print_Tab(tab);
     loop+=1;
-    printf("loop count -> %d",loop);
+    if(loop%22==0)
+    	printf("loop count -> %d %\n",loop/22);
     load_screen((loop/22));
   }
   while(loop/22<=102)
   {
     load_screen(loop/22);
     loop+=1;
-    printf("loop count -> %d",loop);
-    attente(25);
+    if(loop%22==0)
+    	printf("loop count -> %d %\n",loop/22);
+    attente(15);
   }
 }
 
@@ -94,17 +95,14 @@ void set_Path(int tab[][H_Map],int x,int y)
     tab[x][y]=tab[x+1][y];
   else if(tab[x][y+1]!=0)
     tab[x][y]=tab[x][y+1];
-  printf("x-> %d,y-> %d \n",x,y);
   set_Path_Rec(tab,x,y,x,y);
 }
 
 void set_Path_Rec(int tab[][H_Map], int x, int y,int from_x,int from_y)
 {
-  printf("x-> %d,y-> %d \n",x,y);
   if(x+1>=W_Map || x-1<0 || y+1>=H_Map || y-1<0 )
     return;
 
-  printf("somme -> %d \n",tab[x+1][y]+tab[x-1][y]+tab[x][y+1]+tab[x][y-1]);
   if((tab[x+1][y]+tab[x-1][y]+tab[x][y+1]+tab[x][y-1])==tab[x][y])
     return;
 

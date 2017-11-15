@@ -183,7 +183,7 @@ int Menu()
     switch(a)
     {
       case 0:
-	afficher_image_resize("picture/Menu_template_play.bmp",corner,size);
+				afficher_image_resize("picture/Menu_template_play.bmp",corner,size);
 	if(b)
 	{
 	  done=1;
@@ -192,7 +192,17 @@ int Menu()
 	break;
 
       case 1:
-	afficher_image_resize("picture/Menu_template_option.bmp",corner,size);
+			afficher_image_resize("picture/Menu_template_option.bmp",corner,size);
+			if(b)
+			{
+				load_file();
+				actualiser();
+				attente(200);
+				attendre_touche();
+				afficher_image_resize("picture/Menu_template_option.bmp",corner,size);
+				actualiser();
+				b=0;
+			}
   	break;
 
       case 2:
@@ -261,4 +271,32 @@ int Menu_play()
     actualiser(); 
   }
   return a+1;
+}
+void dessiner_timer(int timer_min,int timer_sec,int timer_cent_sec)
+{
+	Point p={W,H+lenght_Case};
+	
+	char text[120];
+	if (timer_min>=10)
+  	sprintf(text,"%d ",timer_min);
+  else 
+  	sprintf(text,"0%d ",timer_min);
+  char text2[120];
+  if (timer_sec>=10)
+  	sprintf(text2,": %d ",timer_sec);
+  else
+  	 sprintf(text2,": 0%d ",timer_sec);
+  char text3[120];
+  if(timer_cent_sec>=10)
+  	sprintf(text3,": %d",timer_cent_sec);
+  else
+  	sprintf(text3,": 0%d",timer_cent_sec);
+  strcat(text2,text3);
+  strcat(text,text2);
+  p.x-=taille_texte(text,30).x/2;
+  dessiner_rectangle(p,taille_texte(text,30).x,taille_texte(text,30).y,gray);
+  printf("%s\n",text);
+	afficher_texte(text,30,p,red);
+	if(timer_cent_sec==0)
+		actualiser();
 }

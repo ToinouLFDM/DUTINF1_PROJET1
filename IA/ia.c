@@ -6,14 +6,14 @@ Point bigest_path(Point p,Case map[][H_Map])
 }
 
 //retroune les coordonée du point a choisir pour l'IA
-Point path_IA(Player *player,Case map[][H_Map])
+Point path_IA(Player *player,Case map[][H_Map],int is_fake_exit)
 {
   tree *Tree=initree(player->position);
-  printf("yolo1\n");
   build_tree(map,player->position,Tree);
-  printf("yolo2\n");
   tree *node_exit;
-  if(!player->own.key1)
+  if(is_fake_exit)
+  	node_exit=find_exit(Tree,map,4);
+  else if(!player->own.key1)
     node_exit=find_exit(Tree,map,3);
   else if(!player->own.key2)
     node_exit=find_exit(Tree,map,2);
@@ -29,6 +29,8 @@ Point path_IA(Player *player,Case map[][H_Map])
   return p;
 
 }
+
+
 //parcours l'arbre pour trouver le chemin vers la sortie retourne le noeud contenant les coordonnées de la sortie
 tree *find_exit(tree *Tree,Case map[][H_Map],int search)
 {
@@ -44,17 +46,21 @@ tree *find_exit(tree *Tree,Case map[][H_Map],int search)
 
     case 1:
       if(map[Tree->value.x][Tree->value.y].own.key3)
-	return Tree;
+				return Tree;
       break;
 
     case 2:
       if(map[Tree->value.x][Tree->value.y].own.key2)
-	return Tree;
+				return Tree;
       break;
 
     case 3:
       if(map[Tree->value.x][Tree->value.y].own.key1)
-	return Tree;
+				return Tree;
+      break;
+    case 4:
+      if(map[Tree->value.x][Tree->value.y].fake_exit)
+				return Tree;
       break;
 
   }
@@ -102,7 +108,6 @@ Point find_path(tree *node)
     p.y=tmp.y;
     tmp.y=tmpt->value.y;
     tmp.x=tmpt->value.x;
-    printf("valeur de tmp(find_path)->%d,%d\n",tmpt->value.x,tmpt->value.y);
   }
   return p;
 }

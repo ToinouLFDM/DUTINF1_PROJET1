@@ -15,8 +15,7 @@
 #define W_Map W/lenght_Case
 #define H_Map H/lenght_Case
 #define SERVEURNAME1 "192.168.1.33" // IP de la machine recevant la map
-
-
+FILE* fichier = NULL;
 
 typedef struct ITEM{
     int key1;
@@ -46,6 +45,7 @@ typedef struct PLAYER{
 
 typedef struct CASE {
 	
+	int fake_exit;
 	int exit;
 	int wall;
 	Item own;
@@ -67,7 +67,7 @@ typedef struct CASE {
 	void pick_Item(Case map[][H_Map],Player *player);
 	//IA GAME
 	//deplace le joueur IA vers la sortie
-	void deplacement_IA(Player *player,Case map[][H_Map]);
+	void deplacement_IA(Player *player,Case map[][H_Map],int *fake_exit,Point *fake_exit_pos);
 	void game_IA(Player *player1,Player *player2,Case map1[][H_Map],Case map2[][H_Map]);
 
         void graphique_anim(int , int ,int nb_map);
@@ -89,9 +89,12 @@ typedef struct CASE {
 	void graphic_wall(int , int , int nb_map);
 	void graphic_key(int,int, int nb_map);
 	void screen_victory(Player *player1, Player *player2);
+	void dessiner_timer(int timer_min,int timer_sec,int timer_cent_sec);//affiche les minutes les secondes et les centiemes de seconde 
 
 //Menu
     void load_screen(int percent);
+    void load_file();
+    void Input_file(int Timer_min,int Timer_sec,int);
 //MAZE
   void generator(Case map[][H/lenght_Case]);
   int check_Map(Case map[][H/lenght_Case]);
@@ -141,7 +144,7 @@ typedef struct CASE {
     Point bigest_path(Point p,Case map[][H_Map]);
     void build_tree(Case map[][H_Map], Point p, tree *tree);
     void build_tree_rec(Case map[][H_Map], Point p, tree *tree);
-    Point path_IA(Player *player,Case map[][H_Map]);
+    Point path_IA(Player *player,Case map[][H_Map],int fake_exit);
     tree *find_exit(tree *Tree,Case map[][H_Map],int search);
     Point find_path(tree *node);
   

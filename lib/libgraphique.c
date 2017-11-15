@@ -32,7 +32,7 @@ Point dernier_clic = {-1,-1};
 int LARGEUR = -1 ;                         // largeur de l'écran en pixels
 int HAUTEUR = -1 ;                         // hauteur de l'écran en pixels
 //char *NOM_POLICE = "../lib/verdana.ttf" ;
-char *NOM_POLICE = "lib/verdana.ttf" ;
+char *NOM_POLICE = "verdana.ttf" ;
 #define octets_par_pixel ecran->format->BytesPerPixel
 #define largeur_ecran (ecran->pitch / 4)
 
@@ -414,30 +414,32 @@ TTF_Font * __police = NULL ;  // police courante , ne pas modidier
 //affiche du texte de taille de police donnée ; coin est le coin haut gauche du texte
 void afficher_texte(char *texte, int taille, Point coin, Couleur couleur)
 {
-  static int ttf_deja_init = 0 ; //appel seulement la premiere fois
-  static TTF_Font *polices[256] ; //les polices de toutes tailles
-  if (!ttf_deja_init)
-  {
-    TTF_Init();
-    int i;
-    for(i=1;i<256;i++)
-      polices[i] = TTF_OpenFont(NOM_POLICE, i);
+    static int ttf_deja_init = 0 ; //appel seulement la premiere fois
+    static TTF_Font *polices[256] ; //les polices de toutes tailles
+    if (!ttf_deja_init)
+    {
+        TTF_Init();
+        int i;
+        for(i=1;i<256;i++)
+            polices[i] = TTF_OpenFont(NOM_POLICE, i);
 
-    ttf_deja_init = 1;
-  }
+        ttf_deja_init = 1;
+    }
 
-  if (texte[0] != '\0')
-  {
-    SDL_Color coul_police ;
-    SDL_GetRGB(couleur,ecran->format,&(coul_police.r),&(coul_police.g),&(coul_police.b));
+    __police = polices[taille] ;
 
-    SDL_Surface *surftexte= TTF_RenderText_Blended(__police, texte, coul_police);
-    SDL_Rect position;
-    position.x = coin.x;
-    position.y=  coin.y;
-    SDL_BlitSurface(surftexte, NULL, ecran, &position);
-  }
-}
+    if (texte[0] != '\0')
+    {
+        SDL_Color coul_police ;
+        SDL_GetRGB(couleur,ecran->format,&(coul_police.r),&(coul_police.g),&(coul_police.b));
+
+        SDL_Surface *surftexte= TTF_RenderText_Blended(__police, texte, coul_police);
+        SDL_Rect position;
+        position.x = coin.x;
+        position.y=  coin.y;
+        SDL_BlitSurface(surftexte, NULL, ecran, &position);
+    }
+} 
 
 //renvoie un point qui contient la taille en pixels que prendrait ce texte si on l'affichait
 //(largeur,hauteur) à la taille de police donnée
